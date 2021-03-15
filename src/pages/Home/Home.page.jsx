@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import Navigation from '../../components/Navigation/Navigation.component';
 
 import { useAuth } from '../../providers/Auth';
 import './Home.styles.css';
@@ -17,9 +18,9 @@ function HomePage() {
 
   return (
     <section className="homepage" ref={sectionRef}>
-      <h1>Hello stranger!</h1>
       {authenticated ? (
         <>
+          <Navigation />
           <h2>Good to have you back</h2>
           <span>
             <Link to="/" onClick={deAuthenticate}>
