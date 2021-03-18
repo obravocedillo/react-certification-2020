@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Navigation from '../../components/Navigation/Navigation.component';
+import Divider from '@material-ui/core/Divider';
+import Navigation from '../../components/Navigation';
+import ListItems from '../../components/ListItems';
+import ChannelsRow from '../../components/ChannelsRow';
 
 import { useAuth } from '../../providers/Auth';
 import './Home.styles.css';
@@ -21,7 +24,9 @@ function HomePage() {
       {authenticated ? (
         <>
           <Navigation />
-          <h2>Good to have you back</h2>
+          <ChannelsRow />
+          <Divider />
+          <ListItems />
           <span>
             <Link to="/" onClick={deAuthenticate}>
               ← logout
