@@ -75,6 +75,18 @@ const StyledSwipeableDrawer = styled(SwipeableDrawer)`
   .MuiDrawer-paper {
     width: 22%;
   }
+
+  @media only screen and (max-width: 900px) {
+    .MuiDrawer-paper {
+      width: 60%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .MuiDrawer-paper {
+      width: 80%;
+    }
+  }
 `;
 
 const StyledTitleHeading = styled.h3`
@@ -89,7 +101,6 @@ const StyledCustomDivider = styled.hr`
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-
 function Navigation() {
   const [open, setOpen] = React.useState(false);
 
@@ -102,12 +113,15 @@ function Navigation() {
   };
 
   /**
-   * Drawer on left
+   * Drawer on the left
    */
   function DrawerMenu() {
+    // ARIA role to avoid warning and use in testing
+    const drawerRole = 'drawer-element';
     return (
       <React.Fragment key="left-drawr">
         <StyledSwipeableDrawer
+          role={drawerRole}
           anchor="left"
           open={open}
           onClose={toggleDrawer(false)}
@@ -135,6 +149,9 @@ function Navigation() {
    * Main navigation bar
    */
   function NavigationBar() {
+    // ARIA role to avoid warning and use in testing
+    const draweOpener = 'drawer-opener';
+    const searchRole = 'search-bar';
     return (
       <div>
         <AppBar position="static">
@@ -145,6 +162,7 @@ function Navigation() {
                 edge="start"
                 color="inherit"
                 aria-label="open drawer"
+                role={draweOpener}
                 onClick={toggleDrawer(true)}
               >
                 <MenuIcon />
@@ -153,6 +171,7 @@ function Navigation() {
             {/* Search input container */}
             <CenterContainerNavigation>
               <StyledInputBase
+                role={searchRole}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
               />

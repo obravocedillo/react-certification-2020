@@ -1,0 +1,44 @@
+---------------- Questions -------------------------
+
+Using create-react-app, what do we need to set up for testing?
+    - create-react-app alredy ships with Jest so you can start testing out of the box,
+      the only thing you need to add is react-test-renderer if you are rendering snapshots.
+      
+What components are worth to test in your development?
+    - The Navigation component which renders some elements depending on the user action, for example
+      the left drawe which renders when the user clicks a specific button, ListItems which renders a 
+      list with all the videos obtained from the mockup data, the ChannelsRow which renders a row 
+      with all the unique channels in the mockup data, and the SearchBar which changes when the user  
+      adds or changes the input of the coponent, those are the components that changes depending on  
+      the user interaction or the data used.
+
+Can you apply TDD once you already created components?
+    - Yes TDD can be implemented once the component is created but must be done before the component is 
+      shipped to production, the whole point of TDD is to test the components functionality and avoid 
+      loses in time and budget because of bugs.
+
+---------------- Coverage report (npm test -- --coverage) -------------------------
+
+PASS  src/components/ChannelsRow/ChannelsRow.test.js
+PASS  src/components/Navigation/Navigation.test.js
+PASS  src/components/ListItems/ListItems.test.js
+PASS  src/tests/utils.test.js
+----------------------------|----------|----------|----------|----------|-------------------|
+File                        |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+----------------------------|----------|----------|----------|----------|-------------------|
+All files                   |    96.08 |      100 |    88.89 |    95.92 |                   |
+ components/ChannelsRow     |    92.31 |      100 |    83.33 |    91.67 |                   |
+  ChannelsRow.component.jsx |    92.31 |      100 |    83.33 |    91.67 |                45 |
+ components/ListItems       |      100 |      100 |      100 |      100 |                   |
+  ListItems.component.jsx   |      100 |      100 |      100 |      100 |                   |
+ components/Navigation      |      100 |      100 |      100 |      100 |                   |
+  Navigation.component.jsx  |      100 |      100 |      100 |      100 |                   |
+ utils                      |       50 |      100 |       50 |       50 |                   |
+  fns.js                    |       50 |      100 |       50 |       50 |                 2 |
+----------------------------|----------|----------|----------|----------|-------------------|
+
+Test Suites: 4 passed, 4 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        7.781s, estimated 9s
+Ran all test suites related to changed files.

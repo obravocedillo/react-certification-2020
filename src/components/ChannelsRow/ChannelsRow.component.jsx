@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Chip from '@material-ui/core/Chip';
 import videos from '../../data/youtube-videos-mock.json';
+import { getNotRepeatedItems } from '../../utils/fns';
 
 /**
  *Styled components used in all the component
@@ -45,17 +46,21 @@ function clickedChip() {
 }
 
 /**
- *@desc Function that returns an array with all the available videos
- *@return Array with html elements for each video
+ *@desc Function that returns an array with all the unique channels
+ *@return Array with Chips for all the channels
  */
 function CreateChannels() {
+  // ARIA role to avoid warning and use in testing
+  const channel = 'chanel';
   const videosArray = videos.items;
   // Get array with all channels
   const allChannels = videosArray.map((singleItem) => singleItem.snippet.channelTitle);
-  // Get not repeated channels
-  const notRepeatedChannels = [...new Set(allChannels)];
+  // Get not repeated channels, form fns file
+  const notRepeatedChannels = getNotRepeatedItems(allChannels);
   const channelsChips = notRepeatedChannels.map((singleItem) => {
-    return <Chip label={singleItem} onClick={clickedChip} key={singleItem} />;
+    return (
+      <Chip label={singleItem} onClick={clickedChip} key={singleItem} role={channel} />
+    );
   });
   return channelsChips;
 }

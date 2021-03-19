@@ -74,9 +74,9 @@ const StyledListVideoDescription = styled.p`
 /**
  *@desc Single video element card with information of the videos
  */
-function SingleElement({ title, description, thumbnails }) {
+function SingleElement({ title, description, thumbnails, role }) {
   return (
-    <StyledListSingleCard elevation={2} variant="outlined">
+    <StyledListSingleCard elevation={2} variant="outlined" role={role}>
       <StyledListVideoImage src={thumbnails.medium.url} alt={title} />
       <StyledInfoContainer>
         <StyledListVideoTitle>{title}</StyledListVideoTitle>
@@ -91,17 +91,20 @@ function SingleElement({ title, description, thumbnails }) {
  *@return Array with html elements for each video
  */
 function CreateVideos() {
+  // ARIA role to avoid warning and use in testing
+  const videoRole = 'single-video';
   const videosArray = videos.items;
   // Array with all the video elements
-  const allVideos = videosArray.map((singleItem) => {
+  const allVideos = videosArray.map(({ id, etag, snippet }) => {
     // Check if element is channel or video
-    if (singleItem.id.kind !== 'youtube#channel') {
+    if (id.kind !== 'youtube#channel') {
       return (
         <SingleElement
-          key={singleItem.etag}
-          thumbnails={singleItem.snippet.thumbnails}
-          title={singleItem.snippet.title}
-          description={singleItem.snippet.description}
+          role={videoRole}
+          key={etag}
+          thumbnails={snippet.thumbnails}
+          title={snippet.title}
+          description={snippet.description}
         />
       );
     }
