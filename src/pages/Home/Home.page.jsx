@@ -4,6 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import Navigation from '../../components/Navigation';
 import ListItems from '../../components/ListItems';
 import ChannelsRow from '../../components/ChannelsRow';
+import { useYoutube } from '../../utils/hooks/useYoutube';
 
 import { useAuth } from '../../providers/Auth';
 import './Home.styles.css';
@@ -12,21 +13,20 @@ function HomePage() {
   const history = useHistory();
   const sectionRef = useRef(null);
   const { authenticated, logout } = useAuth();
-
+  const [videos, searchNewVideo] = useYoutube();
   function deAuthenticate(event) {
     event.preventDefault();
     logout();
     history.push('/');
   }
-
   return (
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation />
-          <ChannelsRow />
+          <Navigation searchNewVideo={searchNewVideo} />
+          <ChannelsRow videos={videos} />
           <Divider />
-          <ListItems />
+          <ListItems videos={videos} />
           <span>
             <Link to="/" onClick={deAuthenticate}>
               ← logout

@@ -6,6 +6,7 @@ import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
 import SecretPage from '../../pages/Secret';
+import VideoDetailsPage from '../../pages/VideoDetails';
 import Private from '../Private';
 // import Fortune from '../Fortune'; Fortune is not working error in Heroku deployment
 import Layout from '../Layout';
@@ -40,6 +41,9 @@ function App() {
             </Route>
             <Route exact path="/login">
               <LoginPage />
+            </Route>
+            <Route exact path="/video-details">
+              <VideoDetailsPage />
             </Route>
             <Private exact path="/secret">
               <SecretPage />
