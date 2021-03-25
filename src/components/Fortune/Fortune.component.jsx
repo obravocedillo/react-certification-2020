@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { useFortune } from '../../utils/hooks/useFortune';
-import './Fortune.styles.css';
+import { StyledFortuneSpan } from './styled';
 
 function Fortune() {
   const { fortune } = useFortune();
 
-  return <span className="fortune">{fortune} </span>;
+  return <StyledFortuneSpan>{fortune} </StyledFortuneSpan>;
 }
 
 export default Fortune;

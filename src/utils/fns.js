@@ -2,4 +2,8 @@ function random(limit) {
   return Math.floor(Math.random() * limit);
 }
 
-export { random };
+function getNotRepeatedItems(array) {
+  return [...new Set(array)];
+}
+
+export { random, getNotRepeatedItems };

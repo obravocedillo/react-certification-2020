@@ -14,11 +14,13 @@ function useAuth() {
 }
 
 function AuthProvider({ children }) {
-  const [authenticated, setAuthenticated] = useState(false);
+  // Use auth will be set to true initially for first deliverble
+  const [authenticated, setAuthenticated] = useState(true);
 
   useEffect(() => {
-    const lastAuthState = storage.get(AUTH_STORAGE_KEY);
-    const isAuthenticated = Boolean(lastAuthState);
+    // Use auth will be set to true initially for first deliverble
+    // const lastAuthState = storage.get(AUTH_STORAGE_KEY);
+    const isAuthenticated = Boolean(true);
 
     setAuthenticated(isAuthenticated);
   }, []);
