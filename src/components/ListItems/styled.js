@@ -12,6 +12,9 @@ export const StyledListGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  .MuiPaper-rounded {
+    border-radius: 8px !important;
+  }
 `;
 
 export const StyledListSingleCard = styled(Paper)`
@@ -22,6 +25,9 @@ export const StyledListSingleCard = styled(Paper)`
   margin-right: 2%;
   margin-bottom: 2rem;
   cursor: pointer;
+  :hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
   @media only screen and (max-width: 900px) {
     width: 45%;
     margin-left: 2.5%;
@@ -37,6 +43,8 @@ export const StyledListSingleCard = styled(Paper)`
 
 export const StyledListVideoImage = styled.img`
   width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 export const StyledInfoContainer = styled.div`

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Material design imports
 import AppBar from '@material-ui/core/AppBar';
@@ -112,11 +113,7 @@ function Navigation({ searchNewVideo }) {
               onChange={(e) => searchInputHandler(e)}
             />
             <div>
-              <StyledIconButton
-                aria-label="search"
-                size="medium"
-                onClick={(e) => handleSearchClick(e)}
-              >
+              <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
                 <StyledIconSearchIcon />
               </StyledIconButton>
             </div>
@@ -139,5 +136,13 @@ function Navigation({ searchNewVideo }) {
     </div>
   );
 }
+
+Navigation.propTypes = {
+  searchNewVideo: PropTypes.func,
+};
+
+Navigation.defaultProps = {
+  searchNewVideo: null,
+};
 
 export default Navigation;

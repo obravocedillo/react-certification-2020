@@ -1,5 +1,6 @@
 import React from 'react';
 import Chip from '@material-ui/core/Chip';
+import PropTypes from 'prop-types';
 import { getNotRepeatedItems } from '../../utils/fns';
 import { StyledMainContainer, StyledRow } from './styled';
 
@@ -32,5 +33,13 @@ function ChannelsRow({ videos }) {
   }
   return <p>No channels to show</p>;
 }
+
+ChannelsRow.propTypes = {
+  videos: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
+};
+
+ChannelsRow.defaultProps = {
+  videos: [],
+};
 
 export default ChannelsRow;

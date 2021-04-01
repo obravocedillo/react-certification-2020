@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import videosMock from '../../data/youtube-videos-mock.json';
 
 function useYoutube(searchTerm = 'wizeline') {
   const [videos, setVideos] = useState(null);
@@ -13,9 +14,15 @@ function useYoutube(searchTerm = 'wizeline') {
         setVideos(startingUrlResult.data.items);
       } catch (error) {
         console.error('Error fetching videos: ', error);
+        setVideos(
+          videosMock.items
+            .filter(({ id }) => {
+              return id.kind !== 'youtube#channel';
+            })
+            .slice(0, 12)
+        );
       }
     }
-
     findVideos();
   }, [searchTerm]);
 
@@ -27,10 +34,16 @@ function useYoutube(searchTerm = 'wizeline') {
       setVideos(startingUrlResult.data.items);
     } catch (error) {
       console.error('Error fetching videos: ', error);
+      setVideos(
+        videosMock.items
+          .filter(({ id }) => {
+            return id.kind !== 'youtube#channel';
+          })
+          .slice(0, 12)
+      );
     }
   };
-
-  return [videos, searchNewVideo];
+  return { videos, searchNewVideo };
 }
 
-export { useYoutube };
+export default useYoutube;
