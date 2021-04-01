@@ -6,12 +6,18 @@ import styled from 'styled-components';
 export const StyledVideoContainer = styled.div`
   width: 100%;
   min-height: 28rem;
+  @media only screen and (max-width: 900px) {
+    min-height: 20rem;
+  }
 `;
 
 export const StyledVideo = styled.iframe`
   width: 100%;
   min-height: 28rem;
   border: 1.5px solid gray;
+  @media only screen and (max-width: 900px) {
+    min-height: 20rem;
+  }
 `;
 
 export const StyledVideoTitleContainer = styled.div`
@@ -30,6 +36,9 @@ export const StyledVideoTitle = styled.h3`
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  @media only screen and (max-width: 900px) {
+    width: 82%;
+  }
 `;
 
 export const StyledVideoLike = styled.div`
@@ -38,6 +47,9 @@ export const StyledVideoLike = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  @media only screen and (max-width: 900px) {
+    width: 18%;
+  }
 `;
 
 export const StyledVideoDescription = styled.p`

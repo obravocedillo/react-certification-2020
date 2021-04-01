@@ -17,6 +17,7 @@ export const StyledVideoDetailsLeftContainer = styled.div`
   width: 70%;
   @media only screen and (max-width: 900px) {
     flex-direction: column;
+    width: 100%;
   }
 `;
 
@@ -27,5 +28,7 @@ export const StyledVideoDetailsRightContainer = styled.div`
   width: 30%;
   @media only screen and (max-width: 900px) {
     flex-direction: column;
+    width: 100%;
+    margin-top: 2rem;
   }
 `;
