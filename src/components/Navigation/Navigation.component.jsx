@@ -27,9 +27,9 @@ import {
   StyledCustomDivider,
 } from './styled';
 
-function Navigation({ searchNewVideo }) {
+function Navigation({ searchNewVideo, searchInput, showSearch }) {
   const [open, setOpen] = React.useState(false);
-  const [search, setSearch] = React.useState('wizeline');
+  const [search, setSearch] = React.useState(searchInput);
 
   const searchInputHandler = (event) => {
     event.preventDefault();
@@ -104,20 +104,25 @@ function Navigation({ searchNewVideo }) {
             </IconButton>
           </LeftContainerNavigation>
           {/* Search input container */}
-          <CenterContainerNavigation>
-            <StyledInputBase
-              role={searchRole}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              value={search}
-              onChange={(e) => searchInputHandler(e)}
-            />
-            <div>
-              <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
-                <StyledIconSearchIcon />
-              </StyledIconButton>
-            </div>
-          </CenterContainerNavigation>
+
+          {showSearch ? (
+            <CenterContainerNavigation>
+              <StyledInputBase
+                role={searchRole}
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                value={search}
+                onChange={(e) => searchInputHandler(e)}
+              />
+              <div>
+                <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
+                  <StyledIconSearchIcon />
+                </StyledIconButton>
+              </div>
+            </CenterContainerNavigation>
+          ) : (
+            <CenterContainerNavigation />
+          )}
           {/* Icons buttons container */}
           <RightContainerNavigation>
             <IconButton
@@ -139,10 +144,14 @@ function Navigation({ searchNewVideo }) {
 
 Navigation.propTypes = {
   searchNewVideo: PropTypes.func,
+  searchInput: PropTypes.string,
+  showSearch: PropTypes.bool,
 };
 
 Navigation.defaultProps = {
   searchNewVideo: null,
+  searchInput: '',
+  showSearch: false,
 };
 
 export default Navigation;

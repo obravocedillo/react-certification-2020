@@ -4,6 +4,7 @@ import videosMock from '../../data/youtube-videos-mock.json';
 
 function useYoutube(searchTerm = 'wizeline') {
   const [videos, setVideos] = useState(null);
+  const [search, setSearch] = useState('wizeline');
 
   useEffect(() => {
     async function findVideos() {
@@ -21,6 +22,7 @@ function useYoutube(searchTerm = 'wizeline') {
             })
             .slice(0, 12)
         );
+        setSearch(searchTerm);
       }
     }
     findVideos();
@@ -41,9 +43,10 @@ function useYoutube(searchTerm = 'wizeline') {
           })
           .slice(0, 12)
       );
+      setSearch(newSearchTerm);
     }
   };
-  return { videos, searchNewVideo };
+  return { videos, searchNewVideo, search };
 }
 
 export default useYoutube;

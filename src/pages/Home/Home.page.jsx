@@ -23,7 +23,7 @@ function HomePage() {
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation searchNewVideo={searchNewVideo} />
+          <Navigation searchNewVideo={searchNewVideo} searchInput="wizeline" showSearch />
           <ChannelsRow videos={videos} />
           <Divider />
           <ListItems videos={videos} />
