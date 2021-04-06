@@ -27,8 +27,8 @@ import {
   StyledCustomDivider,
 } from './styled';
 
-function Navigation({ searchNewVideo, searchInput, showSearch }) {
-  const [open, setOpen] = React.useState(false);
+function Navigation({ searchVideos, searchInput }) {
+  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(searchInput);
 
   const searchInputHandler = (event) => {
@@ -38,7 +38,7 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
 
   const handleSearchClick = (event) => {
     event.preventDefault();
-    searchNewVideo(search);
+    searchVideos(search);
   };
 
   /**
@@ -104,25 +104,20 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
             </IconButton>
           </LeftContainerNavigation>
           {/* Search input container */}
-
-          {showSearch ? (
-            <CenterContainerNavigation>
-              <StyledInputBase
-                role={searchRole}
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                value={search}
-                onChange={(e) => searchInputHandler(e)}
-              />
-              <div>
-                <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
-                  <StyledIconSearchIcon />
-                </StyledIconButton>
-              </div>
-            </CenterContainerNavigation>
-          ) : (
-            <CenterContainerNavigation />
-          )}
+          <CenterContainerNavigation>
+            <StyledInputBase
+              role={searchRole}
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              value={search}
+              onChange={(e) => searchInputHandler(e)}
+            />
+            <div>
+              <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
+                <StyledIconSearchIcon />
+              </StyledIconButton>
+            </div>
+          </CenterContainerNavigation>
           {/* Icons buttons container */}
           <RightContainerNavigation>
             <IconButton
@@ -143,15 +138,13 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
 }
 
 Navigation.propTypes = {
-  searchNewVideo: PropTypes.func,
+  searchVideos: PropTypes.func,
   searchInput: PropTypes.string,
-  showSearch: PropTypes.bool,
 };
 
 Navigation.defaultProps = {
-  searchNewVideo: null,
+  searchVideos: null,
   searchInput: '',
-  showSearch: false,
 };
 
 export default Navigation;

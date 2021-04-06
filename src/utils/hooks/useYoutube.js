@@ -4,7 +4,7 @@ import videosMock from '../../data/youtube-videos-mock.json';
 import { useMainContext } from '../../state/MainProvider';
 
 function useYoutube(searchTerm = 'wizeline') {
-  const { dispatch } = useMainContext();
+  const { state, dispatch } = useMainContext();
 
   async function searchVideos(newSearch) {
     try {
@@ -15,7 +15,7 @@ function useYoutube(searchTerm = 'wizeline') {
       });
       dispatch({
         type: 'CHANGE_SEARCH',
-        payload: searchTerm,
+        payload: newSearch,
       });
     } catch (error) {
       dispatch({
@@ -28,13 +28,16 @@ function useYoutube(searchTerm = 'wizeline') {
       });
       dispatch({
         type: 'CHANGE_SEARCH',
-        payload: searchTerm,
+        payload: newSearch,
       });
     }
   }
 
   useEffect(() => {
-    searchVideos(searchTerm);
+    if (state.videos.length === 0) {
+      searchVideos(searchTerm);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 

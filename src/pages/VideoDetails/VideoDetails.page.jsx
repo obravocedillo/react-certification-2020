@@ -5,6 +5,7 @@ import { useAuth } from '../../providers/Auth';
 import { getRelatedVideos } from '../../utils/fns';
 import VideoPlayer from '../../components/VideoPlayer';
 import RecommendedList from '../../components/RecommendedList';
+import { useMainContext } from '../../state/MainProvider';
 import {
   StyledVideoDetailsMainContainer,
   StyledVideoDetailsLeftContainer,
@@ -12,6 +13,7 @@ import {
 } from './styled';
 
 function VideDetailsPage() {
+  const { state } = useMainContext();
   const videRole = 'youtube-video-player';
   const recommendedList = 'recommended-list-component';
 
@@ -35,7 +37,7 @@ function VideDetailsPage() {
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation />
+          <Navigation searchInput={state.searchQuery} />
           <StyledVideoDetailsMainContainer>
             {/* Video and video information column */}
             <StyledVideoDetailsLeftContainer>

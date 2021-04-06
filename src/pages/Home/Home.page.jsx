@@ -15,21 +15,18 @@ function HomePage() {
   const sectionRef = useRef(null);
   const { authenticated, logout } = useAuth();
   const { searchVideos } = useYoutube();
+
   function deAuthenticate(event) {
     event.preventDefault();
     logout();
     history.push('/');
   }
-  console.log({ state });
+
   return (
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation
-            searchVideos={searchVideos}
-            searchInput={state.searchQuery}
-            showSearch
-          />
+          <Navigation searchVideos={searchVideos} searchInput={state.searchQuery} />
           <ChannelsRow videos={state.videos} />
           <Divider />
           <ListItems videos={state.videos} />
