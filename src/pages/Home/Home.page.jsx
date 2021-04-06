@@ -5,28 +5,34 @@ import Navigation from '../../components/Navigation';
 import ListItems from '../../components/ListItems';
 import ChannelsRow from '../../components/ChannelsRow';
 import useYoutube from '../../utils/hooks/useYoutube';
-
+import { useMainContext } from '../../state/MainProvider';
 import { useAuth } from '../../providers/Auth';
 import './Home.styles.css';
 
 function HomePage() {
+  const { state } = useMainContext();
   const history = useHistory();
   const sectionRef = useRef(null);
   const { authenticated, logout } = useAuth();
-  const { videos, searchNewVideo } = useYoutube();
+  const { searchVideos } = useYoutube();
   function deAuthenticate(event) {
     event.preventDefault();
     logout();
     history.push('/');
   }
+  console.log({ state });
   return (
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation searchNewVideo={searchNewVideo} searchInput="wizeline" showSearch />
-          <ChannelsRow videos={videos} />
+          <Navigation
+            searchVideos={searchVideos}
+            searchInput={state.searchQuery}
+            showSearch
+          />
+          <ChannelsRow videos={state.videos} />
           <Divider />
-          <ListItems videos={videos} />
+          <ListItems videos={state.videos} />
           <span>
             <Link to="/" onClick={deAuthenticate}>
               ← logout

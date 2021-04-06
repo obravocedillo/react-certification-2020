@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Material design imports
@@ -29,7 +29,7 @@ import {
 
 function Navigation({ searchNewVideo, searchInput, showSearch }) {
   const [open, setOpen] = React.useState(false);
-  const [search, setSearch] = React.useState(searchInput);
+  const [search, setSearch] = useState(searchInput);
 
   const searchInputHandler = (event) => {
     event.preventDefault();
