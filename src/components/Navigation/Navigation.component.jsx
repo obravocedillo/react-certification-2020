@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
+import { useMainContext } from '../../state/MainProvider';
 
 // Styled component imports
 import {
@@ -25,11 +26,15 @@ import {
   StyledSwipeableDrawer,
   StyledTitleHeading,
   StyledCustomDivider,
+  ThemeSelecter,
 } from './styled';
+
+import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
 
 function Navigation({ searchVideos, searchInput }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(searchInput);
+  const { dispatch } = useMainContext();
 
   const searchInputHandler = (event) => {
     event.preventDefault();
@@ -39,6 +44,31 @@ function Navigation({ searchVideos, searchInput }) {
   const handleSearchClick = (event) => {
     event.preventDefault();
     searchVideos(search);
+  };
+
+  /**
+   * @desc change theme according to select option
+   * @param {string} theme theme selected
+   */
+  const handleThemeChange = (theme) => {
+    let newTheme;
+    switch (theme) {
+      case 'light':
+        newTheme = lightTheme;
+        break;
+      case 'dark':
+        newTheme = darkTheme;
+        break;
+      case 'vintage':
+        newTheme = vintageTheme;
+        break;
+      default:
+        newTheme = lightTheme;
+    }
+    dispatch({
+      type: 'CHANGE_THEME',
+      payload: newTheme,
+    });
   };
 
   /**
@@ -120,6 +150,12 @@ function Navigation({ searchVideos, searchInput }) {
           </CenterContainerNavigation>
           {/* Icons buttons container */}
           <RightContainerNavigation>
+            <ThemeSelecter onChange={(e) => handleThemeChange(e.target.value)}>
+              <option value="">Theme</option>
+              <option value="light">Light Mode</option>
+              <option value="dark">Dark Mode</option>
+              <option value="vintage">Vintage</option>
+            </ThemeSelecter>
             <IconButton
               edge="end"
               aria-label="account of current user"

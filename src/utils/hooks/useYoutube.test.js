@@ -15,7 +15,7 @@ describe('Youtube functionality hook testing', () => {
     hydrate();
     // Initial value must be null
     expect(result.current.videos).toBeNull();
-    await result.current.searchNewVideo('React');
+    await result.current.searchVideos('React');
     // After search array should contain 12 items
     expect(result.current.videos.length).toBe(12);
   });

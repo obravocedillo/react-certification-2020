@@ -6,6 +6,7 @@ import { getRelatedVideos } from '../../utils/fns';
 import VideoPlayer from '../../components/VideoPlayer';
 import RecommendedList from '../../components/RecommendedList';
 import { useMainContext } from '../../state/MainProvider';
+import useYoutube from '../../utils/hooks/useYoutube';
 import {
   StyledVideoDetailsMainContainer,
   StyledVideoDetailsLeftContainer,
@@ -22,6 +23,8 @@ function VideDetailsPage() {
   const { authenticated } = useAuth();
   const { videoId } = useParams();
   const location = useLocation();
+  const { searchVideos } = useYoutube();
+
   useEffect(() => {
     const asyncFunction = async () => {
       const currentRelayedVideos = await getRelatedVideos(videoId);
@@ -37,7 +40,7 @@ function VideDetailsPage() {
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation searchInput={state.searchQuery} />
+          <Navigation searchVideos={searchVideos} searchInput={state.searchQuery} />
           <StyledVideoDetailsMainContainer>
             {/* Video and video information column */}
             <StyledVideoDetailsLeftContainer>

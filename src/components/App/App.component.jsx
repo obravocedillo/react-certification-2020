@@ -7,6 +7,7 @@ import NotFound from '../../pages/NotFound';
 import SecretPage from '../../pages/Secret';
 import VideoDetailsPage from '../../pages/VideoDetails';
 import Private from '../Private';
+import Theme from '../Theme';
 // import Fortune from '../Fortune'; Fortune is not working error in Heroku deployment
 import Layout from '../Layout';
 import { random } from '../../utils/fns';
@@ -34,29 +35,31 @@ function App() {
 
   return (
     <MainProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <Layout>
-            <Switch>
-              <Route exact path="/">
-                <HomePage />
-              </Route>
-              <Route exact path="/login">
-                <LoginPage />
-              </Route>
-              <Route exact path="/video-details/:videoId">
-                <VideoDetailsPage />
-              </Route>
-              <Private exact path="/secret">
-                <SecretPage />
-              </Private>
-              <Route path="*">
-                <NotFound />
-              </Route>
-            </Switch>
-          </Layout>
-        </AuthProvider>
-      </BrowserRouter>
+      <Theme>
+        <BrowserRouter>
+          <AuthProvider>
+            <Layout>
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                <Route exact path="/login">
+                  <LoginPage />
+                </Route>
+                <Route exact path="/video-details/:videoId">
+                  <VideoDetailsPage />
+                </Route>
+                <Private exact path="/secret">
+                  <SecretPage />
+                </Private>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            </Layout>
+          </AuthProvider>
+        </BrowserRouter>
+      </Theme>
     </MainProvider>
   );
 }

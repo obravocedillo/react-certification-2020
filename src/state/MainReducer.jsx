@@ -26,6 +26,12 @@ export default function reducer(state, action) {
         user: null,
       };
     }
+    case 'CHANGE_THEME': {
+      return {
+        ...state,
+        theme: action.payload,
+      };
+    }
     default:
       throw new Error('Unkown action');
   }
