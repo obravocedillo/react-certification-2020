@@ -52,6 +52,7 @@ export const StyledVideoName = styled.p`
   margin-top: 0rem;
   margin-bottom: 0rem;
   font-size: 0.8rem;
+  font-weight: 600;
   color: ${(props) => props.theme.text};
 `;
 

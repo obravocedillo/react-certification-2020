@@ -35,7 +35,7 @@ import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
 function Navigation({ searchVideos, searchInput }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(searchInput);
-  const { dispatch } = useMainContext();
+  const { dispatch, state } = useMainContext();
 
   const searchInputHandler = (event) => {
     event.preventDefault();
@@ -151,7 +151,10 @@ function Navigation({ searchVideos, searchInput }) {
           </CenterContainerNavigation>
           {/* Icons buttons container */}
           <RightContainerNavigation>
-            <ThemeSelecter onChange={(e) => handleThemeChange(e.target.value)}>
+            <ThemeSelecter
+              onChange={(e) => handleThemeChange(e.target.value)}
+              value={state.theme.name}
+            >
               <option value="">Theme</option>
               <option value="light">Light Mode</option>
               <option value="dark">Dark Mode</option>

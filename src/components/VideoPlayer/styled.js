@@ -35,7 +35,7 @@ export const StyledVideoTitle = styled.h3`
   text-align: left;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 600;
   color: ${(props) => props.theme.text};
   @media only screen and (max-width: 900px) {
     width: 82%;
