@@ -27,6 +27,7 @@ import {
   StyledTitleHeading,
   StyledCustomDivider,
   ThemeSelecter,
+  NavigationMainContainer,
 } from './styled';
 
 import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
@@ -118,7 +119,7 @@ function Navigation({ searchVideos, searchInput }) {
   const draweOpener = 'drawer-opener';
   const searchRole = 'search-bar';
   return (
-    <div className="navigation-main-continer">
+    <NavigationMainContainer>
       <AppBar position="static">
         <Toolbar>
           {/* Drawer opener */}
@@ -169,7 +170,7 @@ function Navigation({ searchVideos, searchInput }) {
         </Toolbar>
       </AppBar>
       <DrawerMenu />
-    </div>
+    </NavigationMainContainer>
   );
 }
 

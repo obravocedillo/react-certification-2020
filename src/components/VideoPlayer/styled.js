@@ -36,6 +36,7 @@ export const StyledVideoTitle = styled.h3`
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  color: ${(props) => props.theme.text};
   @media only screen and (max-width: 900px) {
     width: 82%;
   }
@@ -47,6 +48,7 @@ export const StyledVideoLike = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: ${(props) => props.theme.text};
   @media only screen and (max-width: 900px) {
     width: 18%;
   }
@@ -62,4 +64,5 @@ export const StyledVideoDescription = styled.p`
   color: gray;
   margin: 0;
   margin-top: 0.5rem;
+  color: ${(props) => props.theme.text};
 `;

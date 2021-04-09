@@ -7,6 +7,8 @@ import {
   StyledVideoGrid,
   StyledVideoImage,
   StyledVideoName,
+  StyledVideoDescription,
+  StyledVideoInformation,
 } from './styled';
 
 function RecommendedList({ relatedVideos }) {
@@ -32,7 +34,10 @@ function RecommendedList({ relatedVideos }) {
               }
             >
               <StyledVideoImage src={snippet.thumbnails.medium.url} />
-              <StyledVideoName>{snippet.title}</StyledVideoName>
+              <StyledVideoInformation>
+                <StyledVideoName>{snippet.title}</StyledVideoName>
+                <StyledVideoDescription>{snippet.description}</StyledVideoDescription>
+              </StyledVideoInformation>
             </StyledVideoGrid>
           ))}
         </StyledListGrid>

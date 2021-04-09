@@ -4,6 +4,10 @@
 export const lightTheme = {
   name: 'light',
   body: '#FFF',
+  divider: '#ededed',
+  hover: '#ededed',
+  navigationBackground: '#1387f2',
+  navigationColor: '#ffffff',
   text: '#363537',
   toggleBorder: '#FFF',
   background: '#FFFFFF',
@@ -12,16 +16,22 @@ export const lightTheme = {
 export const darkTheme = {
   name: 'dark',
   body: '#363537',
-  text: '#FAFAFA',
-  toggleBorder: '#6B8096',
-  background: '#999',
+  divider: '#ffffff',
+  hover: '#ffffff',
+  navigationBackground: '#1387f2',
+  navigationColor: '#ffffff',
+  text: '#ffffff',
+  background: '#363537',
 };
 
 export const vintageTheme = {
   name: 'vintage',
   body: '#7c5b41',
+  divider: '#ffffff',
+  hover: '#6B8096',
+  navigationBackground: '#377cbd',
+  navigationColor: '#ffffff',
   text: '#efdcd3',
-  toggleBorder: '#6B8096',
   background: '#7c5b41',
 };
 

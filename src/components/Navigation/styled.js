@@ -9,6 +9,13 @@ import IconButton from '@material-ui/core/IconButton';
 /**
  * Styled components for the page
  */
+export const NavigationMainContainer = styled.div`
+  .MuiAppBar-colorPrimary {
+    color: ${(props) => props.theme.navigationColor};
+    background-color: ${(props) => props.theme.navigationBackground};
+  }
+`;
+
 export const LeftContainerNavigation = styled.div`
   display: flex;
   flex-direction: row;
@@ -65,6 +72,8 @@ export const StyledIconSearchIcon = styled(SearchIcon)`
 export const StyledSwipeableDrawer = styled(SwipeableDrawer)`
   .MuiDrawer-paper {
     width: 22%;
+    background: ${(props) => props.theme.background};
+    color: ${(props) => props.theme.text};
   }
 
   @media only screen and (max-width: 900px) {
@@ -89,7 +98,7 @@ export const StyledTitleHeading = styled.h3`
 export const StyledCustomDivider = styled.hr`
   margin-top: 1rem;
   margin-bottom: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: 1px solid ${(props) => props.theme.divider};
 `;
 
 export const ThemeSelecter = styled.select`

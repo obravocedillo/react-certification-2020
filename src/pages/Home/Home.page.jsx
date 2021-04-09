@@ -1,13 +1,12 @@
 import React, { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Divider from '@material-ui/core/Divider';
 import Navigation from '../../components/Navigation';
 import ListItems from '../../components/ListItems';
 import ChannelsRow from '../../components/ChannelsRow';
 import useYoutube from '../../utils/hooks/useYoutube';
 import { useMainContext } from '../../state/MainProvider';
 import { useAuth } from '../../providers/Auth';
-import './Home.styles.css';
+import { StyledHomePage, StyledHomePageDivider } from './styled';
 
 function HomePage() {
   const { state } = useMainContext();
@@ -23,12 +22,12 @@ function HomePage() {
   }
 
   return (
-    <section className="homepage" ref={sectionRef}>
+    <StyledHomePage ref={sectionRef}>
       {authenticated ? (
         <>
           <Navigation searchVideos={searchVideos} searchInput={state.searchQuery} />
           <ChannelsRow videos={state.videos} />
-          <Divider />
+          <StyledHomePageDivider />
           <ListItems videos={state.videos} />
           <span>
             <Link to="/" onClick={deAuthenticate}>
@@ -41,7 +40,7 @@ function HomePage() {
       ) : (
         <Link to="/login">let me in →</Link>
       )}
-    </section>
+    </StyledHomePage>
   );
 }
 
