@@ -4,11 +4,9 @@ import AuthProvider from '../../providers/Auth';
 import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
-import SecretPage from '../../pages/Secret';
 import VideoDetailsPage from '../../pages/VideoDetails';
 import Private from '../Private';
 import Theme from '../Theme';
-// import Fortune from '../Fortune'; Fortune is not working error in Heroku deployment
 import Layout from '../Layout';
 import { random } from '../../utils/fns';
 
@@ -50,7 +48,7 @@ function App() {
                   <VideoDetailsPage />
                 </Route>
                 <Private exact path="/secret">
-                  <SecretPage />
+                  <HomePage />
                 </Private>
                 <Route path="*">
                   <NotFound />

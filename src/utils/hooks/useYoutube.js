@@ -8,7 +8,8 @@ function useYoutube(searchTerm = 'wizeline') {
 
   async function searchVideos(newSearch) {
     try {
-      const startingUrlResult = await axios.get`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${newSearch}&type=video&key=AIzaSyAuaWJQySwY1UL_VKl2OFCteTTaSdSCoac`();
+      console.log(process.env.REACT_APP_YOUTUBE_KEY);
+      const startingUrlResult = await axios.get`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${newSearch}&type=video&key=${process.env.REACT_APP_YOUTUBE_KEY}`();
       dispatch({
         type: 'CHANGE_VIDEOS',
         payload: startingUrlResult.data.items,
@@ -37,11 +38,11 @@ function useYoutube(searchTerm = 'wizeline') {
     if (state.videos.length === 0) {
       searchVideos(searchTerm);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
-  return { searchVideos };
+  // state is returned for testing purposes
+  return { searchVideos, state };
 }
 
 export default useYoutube;

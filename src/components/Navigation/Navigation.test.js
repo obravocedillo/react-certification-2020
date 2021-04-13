@@ -1,11 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import MainProvider from '../../state/MainProvider';
 
 import Navigation from './Navigation.component';
 
 describe('Navigation Component tests', () => {
   test('check the drawer status after click in drawer openner', async () => {
-    render(<Navigation />);
+    const wrapper = ({ children }) => <MainProvider>{children}</MainProvider>;
+    render(<Navigation />, { wrapper });
     const drawerOpener = await screen.getByRole('drawer-opener');
     const drawerBeforeOpen = await screen.queryByRole('drawer-element');
     expect(drawerBeforeOpen).toEqual(null);
@@ -21,7 +23,8 @@ describe('Navigation Component tests', () => {
   });
 
   test('check the input value after user change', async () => {
-    render(<Navigation showSearch />);
+    const wrapper = ({ children }) => <MainProvider>{children}</MainProvider>;
+    render(<Navigation />, { wrapper });
     const searchBar = await screen.getByLabelText('search');
     expect(searchBar.value).toBe('');
     fireEvent.change(searchBar, { target: { value: 'React' } });
