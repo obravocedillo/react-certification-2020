@@ -32,9 +32,9 @@ import {
 
 import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
 
-function Navigation({ searchVideos, searchInput }) {
+function Navigation({ searchVideos, initialInputValue }) {
   const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState(searchInput);
+  const [search, setSearch] = useState(initialInputValue);
   const { dispatch, state } = useMainContext();
 
   const searchInputHandler = (event) => {
@@ -89,7 +89,7 @@ function Navigation({ searchVideos, searchInput }) {
     return (
       <React.Fragment key="left-drawr">
         <StyledSwipeableDrawer
-          role={drawerRole}
+          data-testid={drawerRole}
           anchor="left"
           open={open}
           onClose={toggleDrawer(false)}
@@ -128,7 +128,7 @@ function Navigation({ searchVideos, searchInput }) {
               edge="start"
               color="inherit"
               aria-label="open drawer"
-              role={draweOpener}
+              data-testid={draweOpener}
               onClick={toggleDrawer(true)}
             >
               <MenuIcon />
@@ -137,7 +137,7 @@ function Navigation({ searchVideos, searchInput }) {
           {/* Search input container */}
           <CenterContainerNavigation>
             <StyledInputBase
-              role={searchRole}
+              data-testid={searchRole}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               value={search}
@@ -178,13 +178,8 @@ function Navigation({ searchVideos, searchInput }) {
 }
 
 Navigation.propTypes = {
-  searchVideos: PropTypes.func,
-  searchInput: PropTypes.string,
-};
-
-Navigation.defaultProps = {
-  searchVideos: null,
-  searchInput: '',
+  searchVideos: PropTypes.func.isRequired,
+  initialInputValue: PropTypes.string.isRequired,
 };
 
 export default Navigation;

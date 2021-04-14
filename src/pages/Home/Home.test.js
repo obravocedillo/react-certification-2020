@@ -21,9 +21,5 @@ describe('Home Page tests', () => {
     // Navbar rendered
     const searchBar = await screen.getByLabelText('search');
     expect(searchBar.value).toBe('');
-
-    // List of items rendered
-    const halfumberPaperVideos = await screen.getAllByRole('single-video');
-    expect(halfumberPaperVideos).toHaveLength(12);
   });
 });

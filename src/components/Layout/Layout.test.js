@@ -6,10 +6,10 @@ describe('Layout test', () => {
   test('test the rendering of the children passed to layout', async () => {
     render(
       <Layout>
-        <p role="paragraph">Test</p>
+        <p data-testid="paragraph">Test</p>
       </Layout>
     );
-    const childrenRendered = await screen.getByRole('paragraph');
+    const childrenRendered = await screen.getByTestId('paragraph');
     expect(childrenRendered).toBeTruthy();
   });
 });

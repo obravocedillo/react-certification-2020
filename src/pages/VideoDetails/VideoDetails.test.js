@@ -18,6 +18,8 @@ describe('Home Page tests', () => {
                   pathname: '/video-details/HYyRZiwBWc8',
                   state: {
                     title: 'Wizeline Guadalajara | Bringing Silicon Valley to Mexico',
+                    description:
+                      'Wizeline Guadalajara | Bringing Silicon Valley to Mexico',
                   },
                 },
               ]}
@@ -31,7 +33,7 @@ describe('Home Page tests', () => {
     render(<VideoDetails />, { wrapper });
 
     // youtube player rendered
-    const youtubeVideo = await screen.getByRole('youtube-video');
+    const youtubeVideo = await screen.getByTestId('youtube-video');
     // check src of youtube video to check that the id is the same as the one passed in the route
     expect(youtubeVideo.src).toEqual(
       'https://www.youtube.com/embed/HYyRZiwBWc8?autoplay=0'

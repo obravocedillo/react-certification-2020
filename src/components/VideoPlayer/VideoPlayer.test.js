@@ -9,9 +9,10 @@ describe('VideoPlayer Component tests', () => {
       <VideoPlayer
         videoId="HYyRZiwBWc8"
         title="Wizeline Guadalajara | Bringing Silicon Valley to Mexico"
+        description="Wizeline Guadalajara | Bringing Silicon Valley to Mexico"
       />
     );
-    const youtubeVideo = await screen.getByRole('youtube-video');
+    const youtubeVideo = await screen.getByTestId('youtube-video');
     // check src of youtube video to check that the id s the same
     expect(youtubeVideo.src).toEqual(
       'https://www.youtube.com/embed/HYyRZiwBWc8?autoplay=0'

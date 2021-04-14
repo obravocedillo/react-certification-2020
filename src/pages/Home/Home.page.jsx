@@ -25,10 +25,14 @@ function HomePage() {
     <StyledHomePage ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation searchVideos={searchVideos} searchInput={state.searchQuery} />
+          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
           <ChannelsRow videos={state.videos} />
           <StyledHomePageDivider />
-          <ListItems videos={state.videos} />
+          <ListItems
+            videos={state.videos.filter(({ id }) => {
+              return id.kind !== 'youtube#channel';
+            })}
+          />
           <span>
             <Link to="/" onClick={deAuthenticate}>
               ← logout

@@ -16,7 +16,7 @@ function VideoPlayer({ videoId, title, description }) {
   return (
     <StyledVideoContainer>
       <StyledVideo
-        role={videRole}
+        data-testid={videRole}
         title={title}
         id="ytplayer"
         type="text/html"
@@ -34,15 +34,9 @@ function VideoPlayer({ videoId, title, description }) {
 }
 
 VideoPlayer.propTypes = {
-  videoId: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-};
-
-VideoPlayer.defaultProps = {
-  videoId: null,
-  title: '',
-  description: '',
+  videoId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 export default VideoPlayer;

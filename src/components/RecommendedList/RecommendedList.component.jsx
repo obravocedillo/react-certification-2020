@@ -28,12 +28,16 @@ function RecommendedList({ relatedVideos }) {
           {relatedVideos.map(({ snippet, etag, id }) => (
             <StyledVideoGrid
               key={etag}
-              role={videoRole}
+              data-testid={videoRole}
               onClick={(e) =>
                 redirectVideoDetails(e, id.videoId, snippet.title, snippet.description)
               }
             >
-              <StyledVideoImage src={snippet.thumbnails.medium.url} />
+              {snippet ? (
+                <StyledVideoImage src={snippet.thumbnails.medium.url} />
+              ) : (
+                <StyledVideoImage src="../../imgs/video-placeholder.jpg" />
+              )}
               <StyledVideoInformation>
                 <StyledVideoName>{snippet.title}</StyledVideoName>
                 <StyledVideoDescription>{snippet.description}</StyledVideoDescription>

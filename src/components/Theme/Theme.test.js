@@ -9,11 +9,11 @@ describe('Theme test', () => {
     const wrapper = ({ children }) => <MainProvider>{children}</MainProvider>;
     render(
       <Theme>
-        <p role="paragraph">Test</p>
+        <p data-testid="paragraph">Test</p>
       </Theme>,
       { wrapper }
     );
-    const childrenRendered = await screen.getByRole('paragraph');
+    const childrenRendered = await screen.getByTestId('paragraph');
     expect(childrenRendered).toBeTruthy();
   });
 });

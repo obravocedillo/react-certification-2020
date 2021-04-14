@@ -3,6 +3,10 @@ import * as fn from '../utils/fns';
 import { returnDataAxios } from '../data/youtube-axios-mocked';
 
 describe('General functions imported from fns tests', () => {
+  beforeEach(() => {
+    axios.get = jest.fn();
+  });
+
   test('checks getNotRepeatedItems result, should return an array with no repeated values', () => {
     const testArrayOne = [1, 2, 2, 1, 5, 6, 3, 1];
     const testArrayTwo = [
@@ -22,7 +26,6 @@ describe('General functions imported from fns tests', () => {
   });
 
   test('Obtain and test axios call and getRelatedVideos()', async () => {
-    axios.get = jest.fn();
     /**
      * Simulate axios http get call to obtain data from youtube API
      */
@@ -35,7 +38,6 @@ describe('General functions imported from fns tests', () => {
   });
 
   test('Obtain empty array when search id is undefined()', async () => {
-    axios.get = jest.fn();
     /**
      * Simulate axios http get call to obtain data from youtube API
      */

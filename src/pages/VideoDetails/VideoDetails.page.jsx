@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
 import { useAuth } from '../../providers/Auth';
@@ -25,22 +25,26 @@ function VideDetailsPage() {
   const location = useLocation();
   const { searchVideos } = useYoutube();
 
-  useEffect(() => {
-    const asyncFunction = async () => {
-      const currentRelayedVideos = await getRelatedVideos(videoId);
-      setRelatedVideos(
-        currentRelayedVideos.filter(({ id }) => {
-          return id.kind !== 'youtube#channel' && id.videoId !== videoId;
-        })
-      );
-    };
-    asyncFunction();
+  /**
+   * Obtain related vieos from a specific id
+   */
+  const getCurrentRelatedVideos = useCallback(async () => {
+    const currentRelatedVideos = await getRelatedVideos(videoId);
+    setRelatedVideos(
+      currentRelatedVideos.filter(({ id }) => {
+        return id.kind !== 'youtube#channel' && id.videoId !== videoId;
+      })
+    );
   }, [videoId]);
+
+  useEffect(() => {
+    getCurrentRelatedVideos();
+  }, [getCurrentRelatedVideos]);
   return (
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation searchVideos={searchVideos} searchInput={state.searchQuery} />
+          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
           <StyledVideoDetailsMainContainer>
             {/* Video and video information column */}
             <StyledVideoDetailsLeftContainer>

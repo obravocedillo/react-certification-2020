@@ -7,7 +7,7 @@ describe('ChannelsRow Component tests', () => {
   test('count number of chips displayed according to mock data, passed by props', async () => {
     const mockedVideos = videos.items;
     render(<ChannelsRow videos={mockedVideos} />);
-    const numberChips = await screen.getAllByRole('chanel');
+    const numberChips = await screen.getAllByTestId('chanel');
     expect(numberChips).toHaveLength(5);
   });
 });
