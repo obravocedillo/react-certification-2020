@@ -21,9 +21,9 @@ describe('Navigation Component tests', () => {
   });
 
   test('check the input value after user change', async () => {
-    render(<Navigation />);
+    render(<Navigation showSearch />);
     const searchBar = await screen.getByLabelText('search');
-    expect(searchBar.value).toBe('wizeline');
+    expect(searchBar.value).toBe('');
     fireEvent.change(searchBar, { target: { value: 'React' } });
     expect(searchBar.value).toBe('react');
   });

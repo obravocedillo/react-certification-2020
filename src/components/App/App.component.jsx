@@ -42,7 +42,7 @@ function App() {
             <Route exact path="/login">
               <LoginPage />
             </Route>
-            <Route exact path="/video-details">
+            <Route exact path="/video-details/:videoId">
               <VideoDetailsPage />
             </Route>
             <Private exact path="/secret">
