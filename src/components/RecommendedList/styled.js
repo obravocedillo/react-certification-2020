@@ -60,3 +60,9 @@ export const StyledVideoDescription = styled.p`
   font-size: 0.75rem;
   color: ${(props) => props.theme.text};
 `;
+
+export const StyledVideoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;

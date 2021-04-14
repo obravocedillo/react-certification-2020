@@ -9,6 +9,7 @@ import {
   StyledVideoName,
   StyledVideoDescription,
   StyledVideoInformation,
+  StyledVideoRow,
 } from './styled';
 
 function RecommendedList({ relatedVideos }) {
@@ -33,15 +34,15 @@ function RecommendedList({ relatedVideos }) {
                 redirectVideoDetails(e, id.videoId, snippet.title, snippet.description)
               }
             >
-              {snippet ? (
-                <StyledVideoImage src={snippet.thumbnails.medium.url} />
-              ) : (
-                <StyledVideoImage src="../../imgs/video-placeholder.jpg" />
+              {snippet && (
+                <StyledVideoRow>
+                  <StyledVideoImage src={snippet.thumbnails.medium.url} />
+                  <StyledVideoInformation>
+                    <StyledVideoName>{snippet.title}</StyledVideoName>
+                    <StyledVideoDescription>{snippet.description}</StyledVideoDescription>
+                  </StyledVideoInformation>
+                </StyledVideoRow>
               )}
-              <StyledVideoInformation>
-                <StyledVideoName>{snippet.title}</StyledVideoName>
-                <StyledVideoDescription>{snippet.description}</StyledVideoDescription>
-              </StyledVideoInformation>
             </StyledVideoGrid>
           ))}
         </StyledListGrid>

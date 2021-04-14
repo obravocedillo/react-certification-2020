@@ -47,6 +47,13 @@ function Navigation({ searchVideos, initialInputValue }) {
     searchVideos(search);
   };
 
+  const handleSearchEnter = (event) => {
+    if (event.charCode === 13) {
+      event.preventDefault();
+      searchVideos(search);
+    }
+  };
+
   /**
    * @desc change theme according to select option
    * @param {string} theme theme selected
@@ -141,6 +148,7 @@ function Navigation({ searchVideos, initialInputValue }) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               value={search}
+              onKeyPress={(e) => handleSearchEnter(e)}
               onChange={(e) => searchInputHandler(e)}
             />
             <div>
