@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 
-import { AUTH_STORAGE_KEY } from '../../utils/constants';
+import { AUTH_STORAGE_KEY, USER_STORAGE_KEY } from '../../utils/constants';
 import { storage } from '../../utils/storage';
+import { mockedUser } from '../../data/mocked.user';
 
-const AuthContext = React.createContext(null);
+const initialState = {
+  authenticated: false,
+  user: null,
+  favorites: [],
+  login: () => {},
+  logout: () => {},
+};
+
+const AuthContext = React.createContext(initialState);
 
 function useAuth() {
   const context = useContext(AuthContext);
@@ -15,28 +24,44 @@ function useAuth() {
 
 function AuthProvider({ children }) {
   // Use auth will be set to true initially for first deliverble
-  const [authenticated, setAuthenticated] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Use auth will be set to true initially for first deliverble
-    // const lastAuthState = storage.get(AUTH_STORAGE_KEY);
-    const isAuthenticated = Boolean(true);
-
-    setAuthenticated(isAuthenticated);
+    const currentUser = storage.get('USER_STORAGE_KEY');
+    const alreadyAuthenticated = storage.get('AUTH_STORAGE_KEY');
+    if (currentUser && alreadyAuthenticated) {
+      setAuthenticated(true);
+      setUser(mockedUser);
+      storage.set(AUTH_STORAGE_KEY, alreadyAuthenticated);
+      storage.set(USER_STORAGE_KEY, JSON.parse(currentUser));
+    }
   }, []);
 
-  const login = useCallback(() => {
-    setAuthenticated(true);
-    storage.set(AUTH_STORAGE_KEY, true);
+  const login = useCallback((username, password) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (username === 'wizeline' && password === 'Rocks!') {
+          setAuthenticated(true);
+          setUser(mockedUser);
+          storage.set(AUTH_STORAGE_KEY, true);
+          storage.set(USER_STORAGE_KEY, JSON.stringify(mockedUser));
+          return resolve('success');
+        }
+        return reject(new Error('Username or password invalid'));
+      }, 500);
+    });
   }, []);
 
   const logout = useCallback(() => {
     setAuthenticated(false);
+    setUser(null);
     storage.set(AUTH_STORAGE_KEY, false);
+    storage.set(USER_STORAGE_KEY, null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ login, logout, authenticated }}>
+    <AuthContext.Provider value={{ login, logout, user, authenticated }}>
       {children}
     </AuthContext.Provider>
   );

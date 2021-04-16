@@ -3,8 +3,6 @@ import reducer from './MainReducer';
 import { lightTheme } from '../themes/Themes';
 
 const initialState = {
-  loggedIn: false,
-  user: null,
   searchQuery: '',
   videos: [],
   theme: lightTheme,

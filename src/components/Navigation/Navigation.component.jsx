@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 // Material design imports
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
+import { useAuth } from '../../providers/Auth';
 import { useMainContext } from '../../state/MainProvider';
 
 // Styled component imports
@@ -28,6 +30,8 @@ import {
   StyledCustomDivider,
   ThemeSelecter,
   NavigationMainContainer,
+  StyledLoginButton,
+  StyledSmallLoginButton,
 } from './styled';
 
 import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
@@ -36,6 +40,8 @@ function Navigation({ searchVideos, initialInputValue }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(initialInputValue);
   const { dispatch, state } = useMainContext();
+  const { authenticated } = useAuth();
+  const history = useHistory();
 
   const searchInputHandler = (event) => {
     event.preventDefault();
@@ -52,6 +58,11 @@ function Navigation({ searchVideos, initialInputValue }) {
       event.preventDefault();
       searchVideos(search);
     }
+  };
+
+  const redirectToLogin = (event) => {
+    event.preventDefault();
+    history.push('/login');
   };
 
   /**
@@ -102,19 +113,28 @@ function Navigation({ searchVideos, initialInputValue }) {
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
         >
-          <List>
-            <StyledTitleHeading>Usuario</StyledTitleHeading>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <ImageIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Oliver Bravo Cedillo" />
-            </ListItem>
-            <StyledCustomDivider />
-            <StyledTitleHeading>Favoritos</StyledTitleHeading>
-          </List>
+          {authenticated ? (
+            <List>
+              <StyledTitleHeading>Usuario</StyledTitleHeading>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <ImageIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Oliver Bravo Cedillo" />
+              </ListItem>
+              <StyledCustomDivider />
+              <StyledTitleHeading>Favoritos</StyledTitleHeading>
+            </List>
+          ) : (
+            <List>
+              <StyledTitleHeading>Favoritos</StyledTitleHeading>
+              <StyledLoginButton onClick={(e) => redirectToLogin(e)}>
+                Login
+              </StyledLoginButton>
+            </List>
+          )}
         </StyledSwipeableDrawer>
       </React.Fragment>
     );
@@ -168,14 +188,20 @@ function Navigation({ searchVideos, initialInputValue }) {
               <option value="dark">Dark Mode</option>
               <option value="vintage">Vintage</option>
             </ThemeSelecter>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle fontSize="large" />
-            </IconButton>
+            {authenticated ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle fontSize="large" />
+              </IconButton>
+            ) : (
+              <StyledSmallLoginButton onClick={(e) => redirectToLogin(e)}>
+                Login
+              </StyledSmallLoginButton>
+            )}
           </RightContainerNavigation>
           {/* Mobile icon menu container */}
         </Toolbar>

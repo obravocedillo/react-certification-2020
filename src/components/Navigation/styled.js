@@ -112,3 +112,28 @@ export const ThemeSelecter = styled.select`
     display: none;
   }
 `;
+
+export const StyledLoginButton = styled.button`
+  width: 86%;
+  margin-left: 7%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  background: ${(props) => props.theme.navigationBackground};
+  color: ${(props) => props.theme.navigationColor};
+  cursor: pointer;
+  font-size: 0.9rem;
+`;
+
+export const StyledSmallLoginButton = styled.button`
+  width: 70%;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  border-radius: 5px;
+  border: none;
+  background: ${(props) => props.theme.navigationColor};
+  color: ${(props) => props.theme.text};
+  cursor: pointer;
+  font-size: 0.9rem;
+`;

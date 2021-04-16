@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
-import { useAuth } from '../../providers/Auth';
 import { getRelatedVideos } from '../../utils/fns';
 import VideoPlayer from '../../components/VideoPlayer';
 import RecommendedList from '../../components/RecommendedList';
@@ -20,7 +19,6 @@ function VideDetailsPage() {
 
   const sectionRef = useRef(null);
   const [relatedVideos, setRelatedVideos] = useState(null);
-  const { authenticated } = useAuth();
   const { videoId } = useParams();
   const location = useLocation();
   const { searchVideos } = useYoutube();
@@ -42,28 +40,24 @@ function VideDetailsPage() {
   }, [getCurrentRelatedVideos]);
   return (
     <section className="homepage" ref={sectionRef}>
-      {authenticated ? (
-        <>
-          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
-          <StyledVideoDetailsMainContainer>
-            {/* Video and video information column */}
-            <StyledVideoDetailsLeftContainer>
-              <VideoPlayer
-                role={videRole}
-                videoId={videoId}
-                title={location.state.title}
-                description={location.state.description}
-              />
-            </StyledVideoDetailsLeftContainer>
-            {/* Related videos container */}
-            <StyledVideoDetailsRightContainer>
-              <RecommendedList relatedVideos={relatedVideos} role={recommendedList} />
-            </StyledVideoDetailsRightContainer>
-          </StyledVideoDetailsMainContainer>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
+      <>
+        <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
+        <StyledVideoDetailsMainContainer>
+          {/* Video and video information column */}
+          <StyledVideoDetailsLeftContainer>
+            <VideoPlayer
+              role={videRole}
+              videoId={videoId}
+              title={location.state.title}
+              description={location.state.description}
+            />
+          </StyledVideoDetailsLeftContainer>
+          {/* Related videos container */}
+          <StyledVideoDetailsRightContainer>
+            <RecommendedList relatedVideos={relatedVideos} role={recommendedList} />
+          </StyledVideoDetailsRightContainer>
+        </StyledVideoDetailsMainContainer>
+      </>
     </section>
   );
 }
