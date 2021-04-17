@@ -27,7 +27,7 @@ export const StyledVideoTitleContainer = styled.div`
 `;
 
 export const StyledVideoTitle = styled.h3`
-  width: 90%;
+  width: 80%;
   font-size: 1.4rem;
   padding-left: 1%;
   padding-right: 1%;
@@ -43,7 +43,7 @@ export const StyledVideoTitle = styled.h3`
 `;
 
 export const StyledVideoLike = styled.div`
-  width: 10%;
+  width: 20%;
   display: flex;
   align-items: center;
   justify-content: center;

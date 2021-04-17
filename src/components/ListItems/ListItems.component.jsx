@@ -16,11 +16,11 @@ function ListItems({ videos }) {
   const videoRole = 'single-video';
   const noVideosRole = 'no-videos';
   const history = useHistory();
-  const redirectVideoDetails = (event, id, title, description) => {
+  const redirectVideoDetails = (event, id, title, description, image) => {
     event.preventDefault();
     history.push({
       pathname: `/video-details/${id}`,
-      state: { title, description },
+      state: { title, description, image },
     });
   };
   if (videos && videos.length > 0) {
@@ -41,7 +41,8 @@ function ListItems({ videos }) {
                       e,
                       id.videoId,
                       snippet.title,
-                      snippet.description
+                      snippet.description,
+                      snippet.thumbnails.medium
                     )
                   }
                 >

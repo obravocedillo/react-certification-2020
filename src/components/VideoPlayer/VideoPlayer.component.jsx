@@ -1,6 +1,7 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
+import { useAuth } from '../../providers/Auth';
 
 import {
   StyledVideoContainer,
@@ -11,8 +12,19 @@ import {
   StyledVideoLike,
 } from './styled';
 
-function VideoPlayer({ videoId, title, description }) {
+function VideoPlayer({ videoId, title, description, thumbnail }) {
   const videRole = 'youtube-video';
+  const { addToFavorites } = useAuth();
+  const handleAddToFavorites = (event, id, videoTitle, videoDescription) => {
+    event.preventDefault();
+    const newFavorite = {
+      id,
+      videoTitle,
+      videoDescription,
+      thumbnail,
+    };
+    addToFavorites(newFavorite);
+  };
   return (
     <StyledVideoContainer>
       <StyledVideo
@@ -25,7 +37,11 @@ function VideoPlayer({ videoId, title, description }) {
       />
       <StyledVideoTitleContainer>
         <StyledVideoTitle>{title}</StyledVideoTitle>
-        <StyledVideoLike>Me gusta</StyledVideoLike>
+        <StyledVideoLike
+          onClick={(e) => handleAddToFavorites(e, videoId, title, description)}
+        >
+          Add to favorites
+        </StyledVideoLike>
       </StyledVideoTitleContainer>
       <Divider />
       <StyledVideoDescription>{description}</StyledVideoDescription>
@@ -37,6 +53,9 @@ VideoPlayer.propTypes = {
   videoId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  thumbnail: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
 };
 
 export default VideoPlayer;

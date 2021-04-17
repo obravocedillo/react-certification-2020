@@ -7,7 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -32,6 +31,11 @@ import {
   NavigationMainContainer,
   StyledLoginButton,
   StyledSmallLoginButton,
+  StyledFavoritesContainer,
+  StyledFavoritesTitle,
+  StyledFavoritesButtonContainer,
+  StyledFavoritesButton,
+  StyledTitleHeadingButton,
 } from './styled';
 
 import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
@@ -40,8 +44,10 @@ function Navigation({ searchVideos, initialInputValue }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(initialInputValue);
   const { dispatch, state } = useMainContext();
-  const { authenticated } = useAuth();
+  const { user, authenticated, favorites, deleteFavorites, logout } = useAuth();
   const history = useHistory();
+
+  console.log(favorites);
 
   const searchInputHandler = (event) => {
     event.preventDefault();
@@ -63,6 +69,21 @@ function Navigation({ searchVideos, initialInputValue }) {
   const redirectToLogin = (event) => {
     event.preventDefault();
     history.push('/login');
+  };
+
+  const redirectToHome = (event) => {
+    event.preventDefault();
+    history.push('/');
+  };
+
+  const handleDeleteFavorite = (event, item) => {
+    event.preventDefault();
+    deleteFavorites(item);
+  };
+
+  const handleLogout = (event) => {
+    event.preventDefault();
+    logout();
   };
 
   /**
@@ -115,24 +136,50 @@ function Navigation({ searchVideos, initialInputValue }) {
         >
           {authenticated ? (
             <List>
-              <StyledTitleHeading>Usuario</StyledTitleHeading>
+              <StyledTitleHeadingButton onClick={(e) => redirectToHome(e)}>
+                Home
+              </StyledTitleHeadingButton>
+              <StyledCustomDivider />
+              <StyledTitleHeading>User</StyledTitleHeading>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>
                     <ImageIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="Oliver Bravo Cedillo" />
+                <ListItemText primary={user.name} />
               </ListItem>
               <StyledCustomDivider />
-              <StyledTitleHeading>Favoritos</StyledTitleHeading>
+              <StyledTitleHeading>Favorites</StyledTitleHeading>
+              {favorites.map((item) => {
+                return (
+                  <>
+                    <StyledFavoritesContainer key={item.id}>
+                      <StyledFavoritesTitle>{item.videoTitle}</StyledFavoritesTitle>
+                      <StyledFavoritesButtonContainer>
+                        <StyledFavoritesButton
+                          onClick={(e) => handleDeleteFavorite(e, item)}
+                        >
+                          Delete favorite
+                        </StyledFavoritesButton>
+                      </StyledFavoritesButtonContainer>
+                    </StyledFavoritesContainer>
+                    <StyledCustomDivider />
+                  </>
+                );
+              })}
             </List>
           ) : (
             <List>
-              <StyledTitleHeading>Favoritos</StyledTitleHeading>
+              <StyledTitleHeadingButton onClick={(e) => redirectToHome(e)}>
+                Home
+              </StyledTitleHeadingButton>
+              <StyledCustomDivider />
+              <StyledTitleHeading>Favorites</StyledTitleHeading>
               <StyledLoginButton onClick={(e) => redirectToLogin(e)}>
                 Login
               </StyledLoginButton>
+              <StyledCustomDivider />
             </List>
           )}
         </StyledSwipeableDrawer>
@@ -189,14 +236,9 @@ function Navigation({ searchVideos, initialInputValue }) {
               <option value="vintage">Vintage</option>
             </ThemeSelecter>
             {authenticated ? (
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle fontSize="large" />
-              </IconButton>
+              <StyledSmallLoginButton onClick={(e) => handleLogout(e)}>
+                Logout
+              </StyledSmallLoginButton>
             ) : (
               <StyledSmallLoginButton onClick={(e) => redirectToLogin(e)}>
                 Login

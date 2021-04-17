@@ -95,6 +95,13 @@ export const StyledTitleHeading = styled.h3`
   margin-bottom: 1rem;
 `;
 
+export const StyledTitleHeadingButton = styled.h3`
+  font-size: 1.1rem;
+  padding-left: 6%;
+  margin-bottom: 1rem;
+  cursor: pointer;
+`;
+
 export const StyledCustomDivider = styled.hr`
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -134,6 +141,45 @@ export const StyledSmallLoginButton = styled.button`
   border: none;
   background: ${(props) => props.theme.navigationColor};
   color: ${(props) => props.theme.text};
+  cursor: pointer;
+  font-size: 0.9rem;
+  @media only screen and (max-width: 900px) {
+    width: auto;
+  }
+`;
+
+export const StyledFavoritesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 86%;
+  margin-left: 7%;
+  padding-bottom: 1rem;
+`;
+
+export const StyledFavoritesTitle = styled.p`
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+`;
+
+export const StyledFavoritesButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5rem;
+`;
+
+export const StyledFavoritesButton = styled.button`
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  background: ${(props) => props.theme.navigationBackground};
+  color: ${(props) => props.theme.navigationColor};
   cursor: pointer;
   font-size: 0.9rem;
 `;

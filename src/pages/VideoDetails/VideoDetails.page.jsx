@@ -46,15 +46,19 @@ function VideDetailsPage() {
           {/* Video and video information column */}
           <StyledVideoDetailsLeftContainer>
             <VideoPlayer
-              role={videRole}
+              data-testid={videRole}
               videoId={videoId}
               title={location.state.title}
               description={location.state.description}
+              thumbnail={location.state.image}
             />
           </StyledVideoDetailsLeftContainer>
           {/* Related videos container */}
           <StyledVideoDetailsRightContainer>
-            <RecommendedList relatedVideos={relatedVideos} role={recommendedList} />
+            <RecommendedList
+              relatedVideos={relatedVideos}
+              data-testid={recommendedList}
+            />
           </StyledVideoDetailsRightContainer>
         </StyledVideoDetailsMainContainer>
       </>

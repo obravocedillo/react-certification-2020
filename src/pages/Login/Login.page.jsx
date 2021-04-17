@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import Navigation from '../../components/Navigation';
 
 import { useAuth } from '../../providers/Auth';
-import './Login.styles.css';
+
+import {
+  LoginMainContainer,
+  LoginTitle,
+  LoginCard,
+  LoginButton,
+  LoginInput,
+  LoginStrong,
+  LoginFormGroup,
+} from './styled';
 
 function LoginPage() {
   const [userName, setUserName] = useState('');
@@ -33,36 +43,37 @@ function LoginPage() {
   };
 
   return (
-    <section className="login">
-      <h1>Welcome back!</h1>
-      <form onSubmit={authenticate} className="login-form">
-        <div className="form-group">
-          <label htmlFor="username">
-            <strong>username </strong>
-            <input
-              required
-              type="text"
-              id="username"
-              value={userName}
-              onChange={(e) => userNameInputHandler(e)}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">
-            <strong>password </strong>
-            <input
-              required
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => passwordInputHandler(e)}
-            />
-          </label>
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </section>
+    <>
+      <Navigation />
+      <LoginMainContainer>
+        <LoginCard>
+          <LoginTitle>Welcome back!</LoginTitle>
+          <form onSubmit={authenticate}>
+            <LoginFormGroup>
+              <LoginStrong>username </LoginStrong>
+              <LoginInput
+                required
+                type="text"
+                id="username"
+                value={userName}
+                onChange={(e) => userNameInputHandler(e)}
+              />
+            </LoginFormGroup>
+            <LoginFormGroup>
+              <LoginStrong>password </LoginStrong>
+              <LoginInput
+                required
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => passwordInputHandler(e)}
+              />
+            </LoginFormGroup>
+            <LoginButton type="submit">Login</LoginButton>
+          </form>
+        </LoginCard>
+      </LoginMainContainer>
+    </>
   );
 }
 
