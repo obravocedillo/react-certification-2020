@@ -37,13 +37,15 @@ function AuthProvider({ children }) {
     const alreadyAuthenticated = storage.get(AUTH_STORAGE_KEY);
     const savedFavorites = storage.get(FAVORITES_STORAGE_KEY);
     if (currentUser && alreadyAuthenticated) {
-      setAuthenticated(true);
-      setUser(mockedUser);
       storage.set(AUTH_STORAGE_KEY, alreadyAuthenticated);
       storage.set(USER_STORAGE_KEY, currentUser);
+      setUser(mockedUser);
+      setAuthenticated(true);
       if (savedFavorites) {
         setFavorites(JSON.parse(savedFavorites));
       }
+    } else {
+      storage.set(FAVORITES_STORAGE_KEY, null);
     }
   }, []);
 
@@ -51,10 +53,10 @@ function AuthProvider({ children }) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (username === 'wizeline' && password === 'Rocks!') {
-          setAuthenticated(true);
-          setUser(mockedUser);
           storage.set(AUTH_STORAGE_KEY, true);
           storage.set(USER_STORAGE_KEY, JSON.stringify(mockedUser));
+          setUser(mockedUser);
+          setAuthenticated(true);
           return resolve('success');
         }
         return reject(new Error('Username or password invalid'));
@@ -80,10 +82,10 @@ function AuthProvider({ children }) {
   );
 
   const deleteFavorites = useCallback(
-    (selectedFavorite) => {
+    (id) => {
       let currentFavorites = [...favorites];
       currentFavorites = currentFavorites.filter((item) => {
-        return item.id !== selectedFavorite.id;
+        return item.id !== id;
       });
       setFavorites(currentFavorites);
       storage.set(FAVORITES_STORAGE_KEY, JSON.stringify(currentFavorites));

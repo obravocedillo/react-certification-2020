@@ -47,8 +47,8 @@ function App() {
                 <Route exact path="/video-details/:videoId">
                   <VideoDetailsPage />
                 </Route>
-                <Private exact path="/secret">
-                  <HomePage />
+                <Private exact path="/favorites/:videoId">
+                  <VideoDetailsPage />
                 </Private>
                 <Route path="*">
                   <NotFound />

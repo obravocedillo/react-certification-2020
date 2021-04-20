@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-
 // Material design imports
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
+import useYoutube from '../../utils/hooks/useYoutube';
 import { useAuth } from '../../providers/Auth';
 import { useMainContext } from '../../state/MainProvider';
 
@@ -38,31 +37,36 @@ import {
   StyledTitleHeadingButton,
 } from './styled';
 
-import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
-
-function Navigation({ searchVideos, initialInputValue }) {
+function Navigation() {
   const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState(initialInputValue);
   const { dispatch, state } = useMainContext();
+  const [search, setSearch] = useState(state.searchQuery);
   const { user, authenticated, favorites, deleteFavorites, logout } = useAuth();
   const history = useHistory();
-
-  console.log(favorites);
+  const { searchVideos } = useYoutube();
 
   const searchInputHandler = (event) => {
     event.preventDefault();
     setSearch(event.target.value.toLowerCase());
   };
 
-  const handleSearchClick = (event) => {
+  const handleSearchClick = async (event) => {
     event.preventDefault();
-    searchVideos(search);
+    const returnedVideos = await searchVideos(search);
+    dispatch({
+      type: 'CHANGE_VIDEOS',
+      payload: returnedVideos,
+    });
   };
 
-  const handleSearchEnter = (event) => {
+  const handleSearchEnter = async (event) => {
     if (event.charCode === 13) {
       event.preventDefault();
-      searchVideos(search);
+      const returnedVideos = await searchVideos(search);
+      dispatch({
+        type: 'CHANGE_VIDEOS',
+        payload: returnedVideos,
+      });
     }
   };
 
@@ -78,7 +82,7 @@ function Navigation({ searchVideos, initialInputValue }) {
 
   const handleDeleteFavorite = (event, item) => {
     event.preventDefault();
-    deleteFavorites(item);
+    deleteFavorites(item.id);
   };
 
   const handleLogout = (event) => {
@@ -86,28 +90,27 @@ function Navigation({ searchVideos, initialInputValue }) {
     logout();
   };
 
+  const handleFavoriteClick = (event, id, title, description, image) => {
+    event.preventDefault();
+    history.push({
+      pathname: `/favorites/${id}`,
+      state: {
+        favorites: true,
+        title,
+        description,
+        image,
+      },
+    });
+  };
+
   /**
    * @desc change theme according to select option
    * @param {string} theme theme selected
    */
   const handleThemeChange = (theme) => {
-    let newTheme;
-    switch (theme) {
-      case 'light':
-        newTheme = lightTheme;
-        break;
-      case 'dark':
-        newTheme = darkTheme;
-        break;
-      case 'vintage':
-        newTheme = vintageTheme;
-        break;
-      default:
-        newTheme = lightTheme;
-    }
     dispatch({
       type: 'CHANGE_THEME',
-      payload: newTheme,
+      payload: theme,
     });
   };
 
@@ -153,9 +156,21 @@ function Navigation({ searchVideos, initialInputValue }) {
               <StyledTitleHeading>Favorites</StyledTitleHeading>
               {favorites.map((item) => {
                 return (
-                  <>
+                  <div key={item.id}>
                     <StyledFavoritesContainer key={item.id}>
-                      <StyledFavoritesTitle>{item.videoTitle}</StyledFavoritesTitle>
+                      <StyledFavoritesTitle
+                        onClick={(e) =>
+                          handleFavoriteClick(
+                            e,
+                            item.id,
+                            item.videoTitle,
+                            item.videoDescription,
+                            item.thumbnail
+                          )
+                        }
+                      >
+                        {item.videoTitle}
+                      </StyledFavoritesTitle>
                       <StyledFavoritesButtonContainer>
                         <StyledFavoritesButton
                           onClick={(e) => handleDeleteFavorite(e, item)}
@@ -165,7 +180,7 @@ function Navigation({ searchVideos, initialInputValue }) {
                       </StyledFavoritesButtonContainer>
                     </StyledFavoritesContainer>
                     <StyledCustomDivider />
-                  </>
+                  </div>
                 );
               })}
             </List>
@@ -229,6 +244,7 @@ function Navigation({ searchVideos, initialInputValue }) {
             <ThemeSelecter
               onChange={(e) => handleThemeChange(e.target.value)}
               value={state.theme.name}
+              data-testid="theme select"
             >
               <option value="">Theme</option>
               <option value="light">Light Mode</option>
@@ -240,7 +256,10 @@ function Navigation({ searchVideos, initialInputValue }) {
                 Logout
               </StyledSmallLoginButton>
             ) : (
-              <StyledSmallLoginButton onClick={(e) => redirectToLogin(e)}>
+              <StyledSmallLoginButton
+                onClick={(e) => redirectToLogin(e)}
+                data-testid="login button"
+              >
                 Login
               </StyledSmallLoginButton>
             )}
@@ -252,10 +271,4 @@ function Navigation({ searchVideos, initialInputValue }) {
     </NavigationMainContainer>
   );
 }
-
-Navigation.propTypes = {
-  searchVideos: PropTypes.func.isRequired,
-  initialInputValue: PropTypes.string.isRequired,
-};
-
 export default Navigation;

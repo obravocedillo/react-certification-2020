@@ -24,6 +24,7 @@ function LoginPage() {
     event.preventDefault();
     try {
       const respond = await login(userName, password);
+      console.log(respond);
       if (respond === 'success') {
         history.push('/');
       }
@@ -56,6 +57,7 @@ function LoginPage() {
                 type="text"
                 id="username"
                 value={userName}
+                data-testid="user name"
                 onChange={(e) => userNameInputHandler(e)}
               />
             </LoginFormGroup>
@@ -66,6 +68,7 @@ function LoginPage() {
                 type="password"
                 id="password"
                 value={password}
+                data-testid="password"
                 onChange={(e) => passwordInputHandler(e)}
               />
             </LoginFormGroup>

@@ -1,20 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Navigation from '../../components/Navigation';
 import ListItems from '../../components/ListItems';
 import ChannelsRow from '../../components/ChannelsRow';
-import useYoutube from '../../utils/hooks/useYoutube';
 import { useMainContext } from '../../state/MainProvider';
 import { StyledHomePage, StyledHomePageDivider } from './styled';
+import useYoutube from '../../utils/hooks/useYoutube';
 
 function HomePage() {
-  const { state } = useMainContext();
+  const { state, dispatch } = useMainContext();
   const sectionRef = useRef(null);
   const { searchVideos } = useYoutube();
+
+  useEffect(() => {
+    const getVideosFromHook = async () => {
+      const returnedVideos = await searchVideos();
+      dispatch({
+        type: 'CHANGE_VIDEOS',
+        payload: returnedVideos,
+      });
+      return returnedVideos;
+    };
+    if (state.videos.length === 0) {
+      getVideosFromHook();
+    }
+  }, [dispatch, searchVideos, state.videos.length]);
 
   return (
     <StyledHomePage ref={sectionRef}>
       <>
-        <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
+        <Navigation />
         <ChannelsRow videos={state.videos} />
         <StyledHomePageDivider />
         <ListItems

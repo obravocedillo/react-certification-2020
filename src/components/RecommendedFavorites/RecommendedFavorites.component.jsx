@@ -12,10 +12,10 @@ import {
   StyledVideoRow,
 } from './styled';
 
-function RecommendedList({ relatedVideos }) {
+function RecommendedFavorites({ relatedVideos }) {
   const videoRole = 'recommended-video';
   const history = useHistory();
-  const redirectVideoDetails = (event, id, title, description, image) => {
+  const redirecFavoriteDetails = (event, id, title, description, image) => {
     event.preventDefault();
     history.push({
       pathname: `/video-details/${id}`,
@@ -26,29 +26,21 @@ function RecommendedList({ relatedVideos }) {
     return (
       <StyledMainContainer>
         <StyledListGrid>
-          {relatedVideos.map(({ snippet, etag, id }) => (
+          {relatedVideos.map(({ id, videoTitle, videoDescription, thumbnail }) => (
             <StyledVideoGrid
-              key={etag}
+              key={id}
               data-testid={videoRole}
               onClick={(e) =>
-                redirectVideoDetails(
-                  e,
-                  id.videoId,
-                  snippet.title,
-                  snippet.description,
-                  snippet.thumbnails.medium
-                )
+                redirecFavoriteDetails(e, id, videoTitle, videoDescription, thumbnail)
               }
             >
-              {snippet && (
-                <StyledVideoRow>
-                  <StyledVideoImage src={snippet.thumbnails.medium.url} />
-                  <StyledVideoInformation>
-                    <StyledVideoName>{snippet.title}</StyledVideoName>
-                    <StyledVideoDescription>{snippet.description}</StyledVideoDescription>
-                  </StyledVideoInformation>
-                </StyledVideoRow>
-              )}
+              <StyledVideoRow>
+                <StyledVideoImage src={thumbnail.url} />
+                <StyledVideoInformation>
+                  <StyledVideoName>{videoTitle}</StyledVideoName>
+                  <StyledVideoDescription>{videoDescription}</StyledVideoDescription>
+                </StyledVideoInformation>
+              </StyledVideoRow>
             </StyledVideoGrid>
           ))}
         </StyledListGrid>
@@ -58,12 +50,12 @@ function RecommendedList({ relatedVideos }) {
   return null;
 }
 
-RecommendedList.propTypes = {
+RecommendedFavorites.propTypes = {
   relatedVideos: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
 };
 
-RecommendedList.defaultProps = {
+RecommendedFavorites.defaultProps = {
   relatedVideos: [],
 };
 
-export default RecommendedList;
+export default RecommendedFavorites;

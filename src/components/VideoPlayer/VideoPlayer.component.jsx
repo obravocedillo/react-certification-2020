@@ -14,7 +14,21 @@ import {
 
 function VideoPlayer({ videoId, title, description, thumbnail }) {
   const videRole = 'youtube-video';
-  const { addToFavorites } = useAuth();
+  const { addToFavorites, favorites, deleteFavorites } = useAuth();
+  const checkAlreadyFavorite = (currentId) => {
+    let found = false;
+    favorites.map((item) => {
+      if (item.id === currentId) {
+        found = true;
+      }
+      return item;
+    });
+    return found;
+  };
+  const handleDeleteFavorite = (event, currentId) => {
+    event.preventDefault();
+    deleteFavorites(currentId);
+  };
   const handleAddToFavorites = (event, id, videoTitle, videoDescription) => {
     event.preventDefault();
     const newFavorite = {
@@ -37,11 +51,17 @@ function VideoPlayer({ videoId, title, description, thumbnail }) {
       />
       <StyledVideoTitleContainer>
         <StyledVideoTitle>{title}</StyledVideoTitle>
-        <StyledVideoLike
-          onClick={(e) => handleAddToFavorites(e, videoId, title, description)}
-        >
-          Add to favorites
-        </StyledVideoLike>
+        {checkAlreadyFavorite(videoId) ? (
+          <StyledVideoLike onClick={(e) => handleDeleteFavorite(e, videoId)}>
+            Remove favorite
+          </StyledVideoLike>
+        ) : (
+          <StyledVideoLike
+            onClick={(e) => handleAddToFavorites(e, videoId, title, description)}
+          >
+            Add to favorites
+          </StyledVideoLike>
+        )}
       </StyledVideoTitleContainer>
       <Divider />
       <StyledVideoDescription>{description}</StyledVideoDescription>

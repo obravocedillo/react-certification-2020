@@ -9,7 +9,7 @@ function NotFoundPage() {
       <Link to="/" className="home-link">
         home
       </Link>
-      <img src="404.gif" alt="page not found" />
+      <img src="404.gif" alt="page not found" data-testid="not found" />
     </section>
   );
 }

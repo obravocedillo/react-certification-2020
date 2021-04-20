@@ -4,8 +4,8 @@ import Navigation from '../../components/Navigation';
 import { getRelatedVideos } from '../../utils/fns';
 import VideoPlayer from '../../components/VideoPlayer';
 import RecommendedList from '../../components/RecommendedList';
-import { useMainContext } from '../../state/MainProvider';
-import useYoutube from '../../utils/hooks/useYoutube';
+import RecommendedFavorites from '../../components/RecommendedFavorites';
+import { useAuth } from '../../providers/Auth';
 import {
   StyledVideoDetailsMainContainer,
   StyledVideoDetailsLeftContainer,
@@ -13,7 +13,6 @@ import {
 } from './styled';
 
 function VideDetailsPage() {
-  const { state } = useMainContext();
   const videRole = 'youtube-video-player';
   const recommendedList = 'recommended-list-component';
 
@@ -21,7 +20,7 @@ function VideDetailsPage() {
   const [relatedVideos, setRelatedVideos] = useState(null);
   const { videoId } = useParams();
   const location = useLocation();
-  const { searchVideos } = useYoutube();
+  const { favorites } = useAuth();
 
   /**
    * Obtain related vieos from a specific id
@@ -36,12 +35,20 @@ function VideDetailsPage() {
   }, [videoId]);
 
   useEffect(() => {
-    getCurrentRelatedVideos();
-  }, [getCurrentRelatedVideos]);
+    if (location.state.favorites) {
+      setRelatedVideos(
+        favorites.filter((item) => {
+          return item.id !== videoId;
+        })
+      );
+    } else {
+      getCurrentRelatedVideos();
+    }
+  }, [favorites, getCurrentRelatedVideos, location.state.favorites, videoId]);
   return (
     <section className="homepage" ref={sectionRef}>
       <>
-        <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
+        <Navigation />
         <StyledVideoDetailsMainContainer>
           {/* Video and video information column */}
           <StyledVideoDetailsLeftContainer>
@@ -55,10 +62,17 @@ function VideDetailsPage() {
           </StyledVideoDetailsLeftContainer>
           {/* Related videos container */}
           <StyledVideoDetailsRightContainer>
-            <RecommendedList
-              relatedVideos={relatedVideos}
-              data-testid={recommendedList}
-            />
+            {location.state.favorites ? (
+              <RecommendedFavorites
+                relatedVideos={relatedVideos}
+                data-testid={recommendedList}
+              />
+            ) : (
+              <RecommendedList
+                relatedVideos={relatedVideos}
+                data-testid={recommendedList}
+              />
+            )}
           </StyledVideoDetailsRightContainer>
         </StyledVideoDetailsMainContainer>
       </>
