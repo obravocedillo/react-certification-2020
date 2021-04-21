@@ -9,6 +9,13 @@ import IconButton from '@material-ui/core/IconButton';
 /**
  * Styled components for the page
  */
+export const NavigationMainContainer = styled.div`
+  .MuiAppBar-colorPrimary {
+    color: ${(props) => props.theme.navigationColor};
+    background-color: ${(props) => props.theme.navigationBackground};
+  }
+`;
+
 export const LeftContainerNavigation = styled.div`
   display: flex;
   flex-direction: row;
@@ -51,6 +58,7 @@ export const StyledInputBase = styled(InputBase)`
   padding-left: 1%;
   margin-left: 1%;
   width: 60%;
+  border-radius: 5px;
 `;
 
 export const StyledIconButton = styled(IconButton)`
@@ -64,6 +72,8 @@ export const StyledIconSearchIcon = styled(SearchIcon)`
 export const StyledSwipeableDrawer = styled(SwipeableDrawer)`
   .MuiDrawer-paper {
     width: 22%;
+    background: ${(props) => props.theme.background};
+    color: ${(props) => props.theme.text};
   }
 
   @media only screen and (max-width: 900px) {
@@ -88,5 +98,17 @@ export const StyledTitleHeading = styled.h3`
 export const StyledCustomDivider = styled.hr`
   margin-top: 1rem;
   margin-bottom: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: 1px solid ${(props) => props.theme.divider};
+`;
+
+export const ThemeSelecter = styled.select`
+  width: 70%;
+  margin-right: 5%;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  @media only screen and (max-width: 900px) {
+    display: none;
+  }
 `;

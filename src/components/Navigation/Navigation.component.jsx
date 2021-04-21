@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Material design imports
@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
+import { useMainContext } from '../../state/MainProvider';
 
 // Styled component imports
 import {
@@ -25,11 +26,16 @@ import {
   StyledSwipeableDrawer,
   StyledTitleHeading,
   StyledCustomDivider,
+  ThemeSelecter,
+  NavigationMainContainer,
 } from './styled';
 
-function Navigation({ searchNewVideo, searchInput, showSearch }) {
-  const [open, setOpen] = React.useState(false);
-  const [search, setSearch] = React.useState(searchInput);
+import { darkTheme, lightTheme, vintageTheme } from '../../themes/Themes';
+
+function Navigation({ searchVideos, initialInputValue }) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState(initialInputValue);
+  const { dispatch, state } = useMainContext();
 
   const searchInputHandler = (event) => {
     event.preventDefault();
@@ -38,7 +44,39 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
 
   const handleSearchClick = (event) => {
     event.preventDefault();
-    searchNewVideo(search);
+    searchVideos(search);
+  };
+
+  const handleSearchEnter = (event) => {
+    if (event.charCode === 13) {
+      event.preventDefault();
+      searchVideos(search);
+    }
+  };
+
+  /**
+   * @desc change theme according to select option
+   * @param {string} theme theme selected
+   */
+  const handleThemeChange = (theme) => {
+    let newTheme;
+    switch (theme) {
+      case 'light':
+        newTheme = lightTheme;
+        break;
+      case 'dark':
+        newTheme = darkTheme;
+        break;
+      case 'vintage':
+        newTheme = vintageTheme;
+        break;
+      default:
+        newTheme = lightTheme;
+    }
+    dispatch({
+      type: 'CHANGE_THEME',
+      payload: newTheme,
+    });
   };
 
   /**
@@ -58,7 +96,7 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
     return (
       <React.Fragment key="left-drawr">
         <StyledSwipeableDrawer
-          role={drawerRole}
+          data-testid={drawerRole}
           anchor="left"
           open={open}
           onClose={toggleDrawer(false)}
@@ -88,7 +126,7 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
   const draweOpener = 'drawer-opener';
   const searchRole = 'search-bar';
   return (
-    <div className="navigation-main-continer">
+    <NavigationMainContainer>
       <AppBar position="static">
         <Toolbar>
           {/* Drawer opener */}
@@ -97,34 +135,39 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
               edge="start"
               color="inherit"
               aria-label="open drawer"
-              role={draweOpener}
+              data-testid={draweOpener}
               onClick={toggleDrawer(true)}
             >
               <MenuIcon />
             </IconButton>
           </LeftContainerNavigation>
           {/* Search input container */}
-
-          {showSearch ? (
-            <CenterContainerNavigation>
-              <StyledInputBase
-                role={searchRole}
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                value={search}
-                onChange={(e) => searchInputHandler(e)}
-              />
-              <div>
-                <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
-                  <StyledIconSearchIcon />
-                </StyledIconButton>
-              </div>
-            </CenterContainerNavigation>
-          ) : (
-            <CenterContainerNavigation />
-          )}
+          <CenterContainerNavigation>
+            <StyledInputBase
+              data-testid={searchRole}
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              value={search}
+              onKeyPress={(e) => handleSearchEnter(e)}
+              onChange={(e) => searchInputHandler(e)}
+            />
+            <div>
+              <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
+                <StyledIconSearchIcon />
+              </StyledIconButton>
+            </div>
+          </CenterContainerNavigation>
           {/* Icons buttons container */}
           <RightContainerNavigation>
+            <ThemeSelecter
+              onChange={(e) => handleThemeChange(e.target.value)}
+              value={state.theme.name}
+            >
+              <option value="">Theme</option>
+              <option value="light">Light Mode</option>
+              <option value="dark">Dark Mode</option>
+              <option value="vintage">Vintage</option>
+            </ThemeSelecter>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -138,20 +181,13 @@ function Navigation({ searchNewVideo, searchInput, showSearch }) {
         </Toolbar>
       </AppBar>
       <DrawerMenu />
-    </div>
+    </NavigationMainContainer>
   );
 }
 
 Navigation.propTypes = {
-  searchNewVideo: PropTypes.func,
-  searchInput: PropTypes.string,
-  showSearch: PropTypes.bool,
-};
-
-Navigation.defaultProps = {
-  searchNewVideo: null,
-  searchInput: '',
-  showSearch: false,
+  searchVideos: PropTypes.func.isRequired,
+  initialInputValue: PropTypes.string.isRequired,
 };
 
 export default Navigation;

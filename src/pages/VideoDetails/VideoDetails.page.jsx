@@ -1,10 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
 import { useAuth } from '../../providers/Auth';
 import { getRelatedVideos } from '../../utils/fns';
 import VideoPlayer from '../../components/VideoPlayer';
 import RecommendedList from '../../components/RecommendedList';
+import { useMainContext } from '../../state/MainProvider';
+import useYoutube from '../../utils/hooks/useYoutube';
 import {
   StyledVideoDetailsMainContainer,
   StyledVideoDetailsLeftContainer,
@@ -12,6 +14,7 @@ import {
 } from './styled';
 
 function VideDetailsPage() {
+  const { state } = useMainContext();
   const videRole = 'youtube-video-player';
   const recommendedList = 'recommended-list-component';
 
@@ -20,22 +23,28 @@ function VideDetailsPage() {
   const { authenticated } = useAuth();
   const { videoId } = useParams();
   const location = useLocation();
-  useEffect(() => {
-    const asyncFunction = async () => {
-      const currentRelayedVideos = await getRelatedVideos(videoId);
-      setRelatedVideos(
-        currentRelayedVideos.filter(({ id }) => {
-          return id.kind !== 'youtube#channel' && id.videoId !== videoId;
-        })
-      );
-    };
-    asyncFunction();
+  const { searchVideos } = useYoutube();
+
+  /**
+   * Obtain related vieos from a specific id
+   */
+  const getCurrentRelatedVideos = useCallback(async () => {
+    const currentRelatedVideos = await getRelatedVideos(videoId);
+    setRelatedVideos(
+      currentRelatedVideos.filter(({ id }) => {
+        return id.kind !== 'youtube#channel' && id.videoId !== videoId;
+      })
+    );
   }, [videoId]);
+
+  useEffect(() => {
+    getCurrentRelatedVideos();
+  }, [getCurrentRelatedVideos]);
   return (
     <section className="homepage" ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation />
+          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
           <StyledVideoDetailsMainContainer>
             {/* Video and video information column */}
             <StyledVideoDetailsLeftContainer>

@@ -1,32 +1,38 @@
 import React, { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Divider from '@material-ui/core/Divider';
 import Navigation from '../../components/Navigation';
 import ListItems from '../../components/ListItems';
 import ChannelsRow from '../../components/ChannelsRow';
 import useYoutube from '../../utils/hooks/useYoutube';
-
+import { useMainContext } from '../../state/MainProvider';
 import { useAuth } from '../../providers/Auth';
-import './Home.styles.css';
+import { StyledHomePage, StyledHomePageDivider } from './styled';
 
 function HomePage() {
+  const { state } = useMainContext();
   const history = useHistory();
   const sectionRef = useRef(null);
   const { authenticated, logout } = useAuth();
-  const { videos, searchNewVideo } = useYoutube();
+  const { searchVideos } = useYoutube();
+
   function deAuthenticate(event) {
     event.preventDefault();
     logout();
     history.push('/');
   }
+
   return (
-    <section className="homepage" ref={sectionRef}>
+    <StyledHomePage ref={sectionRef}>
       {authenticated ? (
         <>
-          <Navigation searchNewVideo={searchNewVideo} searchInput="wizeline" showSearch />
-          <ChannelsRow videos={videos} />
-          <Divider />
-          <ListItems videos={videos} />
+          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
+          <ChannelsRow videos={state.videos} />
+          <StyledHomePageDivider />
+          <ListItems
+            videos={state.videos.filter(({ id }) => {
+              return id.kind !== 'youtube#channel';
+            })}
+          />
           <span>
             <Link to="/" onClick={deAuthenticate}>
               ← logout
@@ -38,7 +44,7 @@ function HomePage() {
       ) : (
         <Link to="/login">let me in →</Link>
       )}
-    </section>
+    </StyledHomePage>
   );
 }
 

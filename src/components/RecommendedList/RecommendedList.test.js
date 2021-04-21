@@ -9,7 +9,7 @@ describe('RecommendedList Component tests', () => {
       return id.kind !== 'youtube#channel';
     });
     render(<RecommendedList relatedVideos={mockedVideos} />);
-    const numberRecommendedVideos = await screen.getAllByRole('recommended-video');
+    const numberRecommendedVideos = await screen.getAllByTestId('recommended-video');
     expect(numberRecommendedVideos).toHaveLength(24);
   });
 });

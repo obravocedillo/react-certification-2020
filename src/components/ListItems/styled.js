@@ -13,7 +13,7 @@ export const StyledListGrid = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   .MuiPaper-rounded {
-    border-radius: 8px !important;
+    border-radius: 10px !important;
   }
 `;
 
@@ -26,7 +26,7 @@ export const StyledListSingleCard = styled(Paper)`
   margin-bottom: 2rem;
   cursor: pointer;
   :hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: ${(props) => props.theme.divider};
   }
   @media only screen and (max-width: 900px) {
     width: 45%;

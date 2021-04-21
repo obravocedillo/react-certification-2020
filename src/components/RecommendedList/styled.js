@@ -23,9 +23,9 @@ export const StyledVideoGrid = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   :not(:first-child) {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1.5px solid ${(props) => props.theme.divider};
   }
   cursor: pointer;
   :hover {
@@ -37,13 +37,32 @@ export const StyledVideoImage = styled.img`
   width: 35%;
 `;
 
-export const StyledVideoName = styled.p`
+export const StyledVideoInformation = styled.div`
+  height: 5.5rem;
+  overflow: hidden;
+  white-space: break-spaces;
+  text-overflow: ellipsis;
   width: 65%;
   padding-left: 1%;
   padding-right: 1%;
   text-align: left;
+`;
+
+export const StyledVideoName = styled.p`
   margin-top: 0rem;
   margin-bottom: 0rem;
   font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.8);
+  font-weight: 600;
+  color: ${(props) => props.theme.text};
+`;
+
+export const StyledVideoDescription = styled.p`
+  font-size: 0.75rem;
+  color: ${(props) => props.theme.text};
+`;
+
+export const StyledVideoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 `;

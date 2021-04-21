@@ -13,7 +13,7 @@ async function getRelatedVideos(videId) {
   try {
     if (videId !== null && videId !== undefined) {
       const startingUrlResult = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&relatedToVideoId=${videId}&type=video&key=AIzaSyAuaWJQySwY1UL_VKl2OFCteTTaSdSCoac`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&relatedToVideoId=${videId}&type=video&key=${process.env.REACT_APP_YOUTUBE_KEY}`
       );
       return startingUrlResult.data.items;
     }

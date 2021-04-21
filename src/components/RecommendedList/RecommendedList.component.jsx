@@ -7,6 +7,9 @@ import {
   StyledVideoGrid,
   StyledVideoImage,
   StyledVideoName,
+  StyledVideoDescription,
+  StyledVideoInformation,
+  StyledVideoRow,
 } from './styled';
 
 function RecommendedList({ relatedVideos }) {
@@ -26,13 +29,20 @@ function RecommendedList({ relatedVideos }) {
           {relatedVideos.map(({ snippet, etag, id }) => (
             <StyledVideoGrid
               key={etag}
-              role={videoRole}
+              data-testid={videoRole}
               onClick={(e) =>
                 redirectVideoDetails(e, id.videoId, snippet.title, snippet.description)
               }
             >
-              <StyledVideoImage src={snippet.thumbnails.medium.url} />
-              <StyledVideoName>{snippet.title}</StyledVideoName>
+              {snippet && (
+                <StyledVideoRow>
+                  <StyledVideoImage src={snippet.thumbnails.medium.url} />
+                  <StyledVideoInformation>
+                    <StyledVideoName>{snippet.title}</StyledVideoName>
+                    <StyledVideoDescription>{snippet.description}</StyledVideoDescription>
+                  </StyledVideoInformation>
+                </StyledVideoRow>
+              )}
             </StyledVideoGrid>
           ))}
         </StyledListGrid>

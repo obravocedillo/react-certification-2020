@@ -27,56 +27,48 @@ function ListItems({ videos }) {
     return (
       <StyledMainContainer>
         <StyledListGrid>
-          {videos
-            .filter(({ id }) => {
-              return id.kind !== 'youtube#channel';
-            })
-            .map(({ id, etag, snippet }) => {
-              // Check if element is channel or video
-              if (id.kind !== 'youtube#channel') {
-                return (
-                  <StyledListSingleCard
-                    elevation={2}
-                    variant="outlined"
-                    role={videoRole}
-                    key={etag}
-                    onClick={(e) =>
-                      redirectVideoDetails(
-                        e,
-                        id.videoId,
-                        snippet.title,
-                        snippet.description
-                      )
-                    }
-                  >
-                    <StyledListVideoImage
-                      src={snippet.thumbnails.medium.url}
-                      alt={snippet.title}
-                    />
-                    <StyledInfoContainer>
-                      <StyledListVideoTitle>{snippet.title}</StyledListVideoTitle>
-                      <StyledListVideoDescription>
-                        {snippet.description}
-                      </StyledListVideoDescription>
-                    </StyledInfoContainer>
-                  </StyledListSingleCard>
-                );
-              }
-              return null;
-            })}
+          {videos.map(({ id, etag, snippet }) => {
+            // Check if element is channel or video
+            if (id.kind !== 'youtube#channel') {
+              return (
+                <StyledListSingleCard
+                  elevation={2}
+                  variant="outlined"
+                  data-testid={videoRole}
+                  key={etag}
+                  onClick={(e) =>
+                    redirectVideoDetails(
+                      e,
+                      id.videoId,
+                      snippet.title,
+                      snippet.description
+                    )
+                  }
+                >
+                  <StyledListVideoImage
+                    src={snippet.thumbnails.medium.url}
+                    alt={snippet.title}
+                  />
+                  <StyledInfoContainer>
+                    <StyledListVideoTitle>{snippet.title}</StyledListVideoTitle>
+                    <StyledListVideoDescription>
+                      {snippet.description}
+                    </StyledListVideoDescription>
+                  </StyledInfoContainer>
+                </StyledListSingleCard>
+              );
+            }
+            return null;
+          })}
         </StyledListGrid>
       </StyledMainContainer>
     );
   }
-  return <p role={noVideosRole}>No videos to show</p>;
+  return <p data-testid={noVideosRole}>No videos to show</p>;
 }
 
 ListItems.propTypes = {
-  videos: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
-};
-
-ListItems.defaultProps = {
-  videos: [],
+  videos: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
 };
 
 export default ListItems;

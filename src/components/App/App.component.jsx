@@ -1,16 +1,16 @@
 import React, { useLayoutEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
 import AuthProvider from '../../providers/Auth';
 import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
-import SecretPage from '../../pages/Secret';
 import VideoDetailsPage from '../../pages/VideoDetails';
 import Private from '../Private';
-// import Fortune from '../Fortune'; Fortune is not working error in Heroku deployment
+import Theme from '../Theme';
 import Layout from '../Layout';
 import { random } from '../../utils/fns';
+
+import MainProvider from '../../state/MainProvider';
 
 function App() {
   useLayoutEffect(() => {
@@ -32,29 +32,33 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Layout>
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route exact path="/login">
-              <LoginPage />
-            </Route>
-            <Route exact path="/video-details/:videoId">
-              <VideoDetailsPage />
-            </Route>
-            <Private exact path="/secret">
-              <SecretPage />
-            </Private>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
-        </Layout>
-      </AuthProvider>
-    </BrowserRouter>
+    <MainProvider>
+      <Theme>
+        <BrowserRouter>
+          <AuthProvider>
+            <Layout>
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                <Route exact path="/login">
+                  <LoginPage />
+                </Route>
+                <Route exact path="/video-details/:videoId">
+                  <VideoDetailsPage />
+                </Route>
+                <Private exact path="/secret">
+                  <HomePage />
+                </Private>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            </Layout>
+          </AuthProvider>
+        </BrowserRouter>
+      </Theme>
+    </MainProvider>
   );
 }
 

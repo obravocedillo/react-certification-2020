@@ -24,7 +24,7 @@ function ChannelsRow({ videos }) {
               label={singleItem}
               onClick={clickedChip}
               key={singleItem}
-              role={channel}
+              data-testid={channel}
             />
           ))}
         </StyledRow>
@@ -35,11 +35,7 @@ function ChannelsRow({ videos }) {
 }
 
 ChannelsRow.propTypes = {
-  videos: PropTypes.arrayOf(PropTypes.instanceOf(Object)),
-};
-
-ChannelsRow.defaultProps = {
-  videos: [],
+  videos: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
 };
 
 export default ChannelsRow;
