@@ -57,6 +57,10 @@ function Navigation() {
       type: 'CHANGE_VIDEOS',
       payload: returnedVideos,
     });
+    dispatch({
+      type: 'CHANGE_SEARCH',
+      payload: search,
+    });
   };
 
   const handleSearchEnter = async (event) => {
@@ -66,6 +70,10 @@ function Navigation() {
       dispatch({
         type: 'CHANGE_VIDEOS',
         payload: returnedVideos,
+      });
+      dispatch({
+        type: 'CHANGE_SEARCH',
+        payload: search,
       });
     }
   };
