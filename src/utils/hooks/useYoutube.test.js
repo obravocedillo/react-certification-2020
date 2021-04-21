@@ -23,7 +23,6 @@ describe('Youtube functionality hook testing', () => {
     hydrate();
     // Await for new changes
     const videos = await result.current.searchVideos('React');
-    console.log(videos);
     expect(videos.length).toBe(1);
   });
 });
