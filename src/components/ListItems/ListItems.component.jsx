@@ -12,59 +12,57 @@ import {
 } from './styled';
 
 function ListItems({ videos }) {
-  // ARIA role to avoid warning and use in testing
-  const videoRole = 'single-video';
-  const noVideosRole = 'no-videos';
+  const videoTestId = 'single-video';
+  const noVideosTestId = 'no-videos';
   const history = useHistory();
-  const redirectVideoDetails = (event, id, title, description) => {
-    event.preventDefault();
+  const redirectVideoDetails = (id, title, description, image) => {
     history.push({
       pathname: `/video-details/${id}`,
-      state: { title, description },
+      state: { title, description, image },
     });
   };
-  if (videos && videos.length > 0) {
-    return (
-      <StyledMainContainer>
-        <StyledListGrid>
-          {videos.map(({ id, etag, snippet }) => {
-            // Check if element is channel or video
-            if (id.kind !== 'youtube#channel') {
-              return (
-                <StyledListSingleCard
-                  elevation={2}
-                  variant="outlined"
-                  data-testid={videoRole}
-                  key={etag}
-                  onClick={(e) =>
-                    redirectVideoDetails(
-                      e,
-                      id.videoId,
-                      snippet.title,
-                      snippet.description
-                    )
-                  }
-                >
-                  <StyledListVideoImage
-                    src={snippet.thumbnails.medium.url}
-                    alt={snippet.title}
-                  />
-                  <StyledInfoContainer>
-                    <StyledListVideoTitle>{snippet.title}</StyledListVideoTitle>
-                    <StyledListVideoDescription>
-                      {snippet.description}
-                    </StyledListVideoDescription>
-                  </StyledInfoContainer>
-                </StyledListSingleCard>
-              );
-            }
-            return null;
-          })}
-        </StyledListGrid>
-      </StyledMainContainer>
-    );
+  if (!videos || videos.length === 0) {
+    return <p data-testid={noVideosTestId}>No videos to show</p>;
   }
-  return <p data-testid={noVideosRole}>No videos to show</p>;
+  return (
+    <StyledMainContainer>
+      <StyledListGrid>
+        {videos.map(({ id, etag, snippet }) => {
+          // Check if element is channel or video
+          if (id.kind !== 'youtube#channel') {
+            return (
+              <StyledListSingleCard
+                elevation={2}
+                variant="outlined"
+                data-testid={videoTestId}
+                key={etag}
+                onClick={() =>
+                  redirectVideoDetails(
+                    id.videoId,
+                    snippet.title,
+                    snippet.description,
+                    snippet.thumbnails.medium
+                  )
+                }
+              >
+                <StyledListVideoImage
+                  src={snippet.thumbnails.medium.url}
+                  alt={snippet.title}
+                />
+                <StyledInfoContainer>
+                  <StyledListVideoTitle>{snippet.title}</StyledListVideoTitle>
+                  <StyledListVideoDescription>
+                    {snippet.description}
+                  </StyledListVideoDescription>
+                </StyledInfoContainer>
+              </StyledListSingleCard>
+            );
+          }
+          return null;
+        })}
+      </StyledListGrid>
+    </StyledMainContainer>
+  );
 }
 
 ListItems.propTypes = {

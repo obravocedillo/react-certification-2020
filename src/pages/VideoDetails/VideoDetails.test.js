@@ -20,6 +20,9 @@ describe('Home Page tests', () => {
                     title: 'Wizeline Guadalajara | Bringing Silicon Valley to Mexico',
                     description:
                       'Wizeline Guadalajara | Bringing Silicon Valley to Mexico',
+                    image: {
+                      url: 'https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg',
+                    },
                   },
                 },
               ]}

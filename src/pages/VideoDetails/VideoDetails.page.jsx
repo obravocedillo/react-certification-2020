@@ -1,12 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
-import { useAuth } from '../../providers/Auth';
 import { getRelatedVideos } from '../../utils/fns';
 import VideoPlayer from '../../components/VideoPlayer';
 import RecommendedList from '../../components/RecommendedList';
-import { useMainContext } from '../../state/MainProvider';
-import useYoutube from '../../utils/hooks/useYoutube';
+import RecommendedFavorites from '../../components/RecommendedFavorites';
+import { useAuth } from '../../providers/Auth';
 import {
   StyledVideoDetailsMainContainer,
   StyledVideoDetailsLeftContainer,
@@ -14,16 +13,14 @@ import {
 } from './styled';
 
 function VideDetailsPage() {
-  const { state } = useMainContext();
-  const videRole = 'youtube-video-player';
+  const videTestId = 'youtube-video-player';
   const recommendedList = 'recommended-list-component';
 
   const sectionRef = useRef(null);
   const [relatedVideos, setRelatedVideos] = useState(null);
-  const { authenticated } = useAuth();
   const { videoId } = useParams();
   const location = useLocation();
-  const { searchVideos } = useYoutube();
+  const { favorites } = useAuth();
 
   /**
    * Obtain related vieos from a specific id
@@ -38,32 +35,45 @@ function VideDetailsPage() {
   }, [videoId]);
 
   useEffect(() => {
-    getCurrentRelatedVideos();
-  }, [getCurrentRelatedVideos]);
+    if (location.state.favorites) {
+      setRelatedVideos(
+        favorites.filter((item) => {
+          return item.id !== videoId;
+        })
+      );
+    } else {
+      getCurrentRelatedVideos();
+    }
+  }, [favorites, getCurrentRelatedVideos, location.state.favorites, videoId]);
   return (
     <section className="homepage" ref={sectionRef}>
-      {authenticated ? (
-        <>
-          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
-          <StyledVideoDetailsMainContainer>
-            {/* Video and video information column */}
-            <StyledVideoDetailsLeftContainer>
-              <VideoPlayer
-                role={videRole}
-                videoId={videoId}
-                title={location.state.title}
-                description={location.state.description}
-              />
-            </StyledVideoDetailsLeftContainer>
-            {/* Related videos container */}
-            <StyledVideoDetailsRightContainer>
-              <RecommendedList relatedVideos={relatedVideos} role={recommendedList} />
-            </StyledVideoDetailsRightContainer>
-          </StyledVideoDetailsMainContainer>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
+      <Navigation />
+      <StyledVideoDetailsMainContainer>
+        {/* Video and video information column */}
+        <StyledVideoDetailsLeftContainer>
+          <VideoPlayer
+            data-testid={videTestId}
+            videoId={videoId}
+            title={location.state.title}
+            description={location.state.description}
+            thumbnail={location.state.image}
+          />
+        </StyledVideoDetailsLeftContainer>
+        {/* Related videos container */}
+        <StyledVideoDetailsRightContainer>
+          {location.state.favorites ? (
+            <RecommendedFavorites
+              relatedVideos={relatedVideos}
+              data-testid={recommendedList}
+            />
+          ) : (
+            <RecommendedList
+              relatedVideos={relatedVideos}
+              data-testid={recommendedList}
+            />
+          )}
+        </StyledVideoDetailsRightContainer>
+      </StyledVideoDetailsMainContainer>
     </section>
   );
 }

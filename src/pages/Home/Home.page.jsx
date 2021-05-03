@@ -1,49 +1,40 @@
-import React, { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
 import Navigation from '../../components/Navigation';
 import ListItems from '../../components/ListItems';
 import ChannelsRow from '../../components/ChannelsRow';
-import useYoutube from '../../utils/hooks/useYoutube';
 import { useMainContext } from '../../state/MainProvider';
-import { useAuth } from '../../providers/Auth';
 import { StyledHomePage, StyledHomePageDivider } from './styled';
+import useYoutube from '../../utils/hooks/useYoutube';
 
 function HomePage() {
-  const { state } = useMainContext();
-  const history = useHistory();
+  const { state, dispatch } = useMainContext();
   const sectionRef = useRef(null);
-  const { authenticated, logout } = useAuth();
   const { searchVideos } = useYoutube();
 
-  function deAuthenticate(event) {
-    event.preventDefault();
-    logout();
-    history.push('/');
-  }
+  useEffect(() => {
+    const getVideosFromHook = async () => {
+      const returnedVideos = await searchVideos('wizeline');
+      dispatch({
+        type: 'CHANGE_VIDEOS',
+        payload: returnedVideos,
+      });
+      return returnedVideos;
+    };
+    if (state.videos.length === 0) {
+      getVideosFromHook();
+    }
+  }, [dispatch, searchVideos, state.videos.length]);
 
   return (
     <StyledHomePage ref={sectionRef}>
-      {authenticated ? (
-        <>
-          <Navigation searchVideos={searchVideos} initialInputValue={state.searchQuery} />
-          <ChannelsRow videos={state.videos} />
-          <StyledHomePageDivider />
-          <ListItems
-            videos={state.videos.filter(({ id }) => {
-              return id.kind !== 'youtube#channel';
-            })}
-          />
-          <span>
-            <Link to="/" onClick={deAuthenticate}>
-              ← logout
-            </Link>
-            <span className="separator" />
-            <Link to="/secret">show me something cool →</Link>
-          </span>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
+      <Navigation />
+      <ChannelsRow videos={state.videos} />
+      <StyledHomePageDivider />
+      <ListItems
+        videos={state.videos.filter(({ id }) => {
+          return id.kind !== 'youtube#channel';
+        })}
+      />
     </StyledHomePage>
   );
 }

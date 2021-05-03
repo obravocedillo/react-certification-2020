@@ -5,11 +5,15 @@ import VideoPlayer from './VideoPlayer.component';
 
 describe('VideoPlayer Component tests', () => {
   test('check the video player src to check if the id and title are correct', async () => {
+    const image = {
+      url: 'https://i.ytimg.com/vi/nmXMgqjQzls/mqdefault.jpg',
+    };
     render(
       <VideoPlayer
         videoId="HYyRZiwBWc8"
         title="Wizeline Guadalajara | Bringing Silicon Valley to Mexico"
         description="Wizeline Guadalajara | Bringing Silicon Valley to Mexico"
+        thumbnail={image}
       />
     );
     const youtubeVideo = await screen.getByTestId('youtube-video');

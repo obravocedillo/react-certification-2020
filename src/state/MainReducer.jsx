@@ -1,3 +1,5 @@
+import { darkTheme, lightTheme, vintageTheme } from '../themes/Themes';
+
 export default function reducer(state, action) {
   switch (action.type) {
     case 'CHANGE_SEARCH': {
@@ -27,9 +29,23 @@ export default function reducer(state, action) {
       };
     }
     case 'CHANGE_THEME': {
+      let newTheme;
+      switch (action.payload) {
+        case 'light':
+          newTheme = lightTheme;
+          break;
+        case 'dark':
+          newTheme = darkTheme;
+          break;
+        case 'vintage':
+          newTheme = vintageTheme;
+          break;
+        default:
+          newTheme = lightTheme;
+      }
       return {
         ...state,
-        theme: action.payload,
+        theme: newTheme,
       };
     }
     default:
