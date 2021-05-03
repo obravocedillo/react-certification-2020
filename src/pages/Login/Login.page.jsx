@@ -34,12 +34,10 @@ function LoginPage() {
   };
 
   const userNameInputHandler = (event) => {
-    event.preventDefault();
     setUserName(event.target.value);
   };
 
   const passwordInputHandler = (event) => {
-    event.preventDefault();
     setPassword(event.target.value);
   };
 

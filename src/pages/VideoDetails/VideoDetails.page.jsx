@@ -13,7 +13,7 @@ import {
 } from './styled';
 
 function VideDetailsPage() {
-  const videRole = 'youtube-video-player';
+  const videTestId = 'youtube-video-player';
   const recommendedList = 'recommended-list-component';
 
   const sectionRef = useRef(null);
@@ -47,35 +47,33 @@ function VideDetailsPage() {
   }, [favorites, getCurrentRelatedVideos, location.state.favorites, videoId]);
   return (
     <section className="homepage" ref={sectionRef}>
-      <>
-        <Navigation />
-        <StyledVideoDetailsMainContainer>
-          {/* Video and video information column */}
-          <StyledVideoDetailsLeftContainer>
-            <VideoPlayer
-              data-testid={videRole}
-              videoId={videoId}
-              title={location.state.title}
-              description={location.state.description}
-              thumbnail={location.state.image}
+      <Navigation />
+      <StyledVideoDetailsMainContainer>
+        {/* Video and video information column */}
+        <StyledVideoDetailsLeftContainer>
+          <VideoPlayer
+            data-testid={videTestId}
+            videoId={videoId}
+            title={location.state.title}
+            description={location.state.description}
+            thumbnail={location.state.image}
+          />
+        </StyledVideoDetailsLeftContainer>
+        {/* Related videos container */}
+        <StyledVideoDetailsRightContainer>
+          {location.state.favorites ? (
+            <RecommendedFavorites
+              relatedVideos={relatedVideos}
+              data-testid={recommendedList}
             />
-          </StyledVideoDetailsLeftContainer>
-          {/* Related videos container */}
-          <StyledVideoDetailsRightContainer>
-            {location.state.favorites ? (
-              <RecommendedFavorites
-                relatedVideos={relatedVideos}
-                data-testid={recommendedList}
-              />
-            ) : (
-              <RecommendedList
-                relatedVideos={relatedVideos}
-                data-testid={recommendedList}
-              />
-            )}
-          </StyledVideoDetailsRightContainer>
-        </StyledVideoDetailsMainContainer>
-      </>
+          ) : (
+            <RecommendedList
+              relatedVideos={relatedVideos}
+              data-testid={recommendedList}
+            />
+          )}
+        </StyledVideoDetailsRightContainer>
+      </StyledVideoDetailsMainContainer>
     </section>
   );
 }

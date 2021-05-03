@@ -13,7 +13,7 @@ function HomePage() {
 
   useEffect(() => {
     const getVideosFromHook = async () => {
-      const returnedVideos = await searchVideos();
+      const returnedVideos = await searchVideos('wizeline');
       dispatch({
         type: 'CHANGE_VIDEOS',
         payload: returnedVideos,
@@ -27,16 +27,14 @@ function HomePage() {
 
   return (
     <StyledHomePage ref={sectionRef}>
-      <>
-        <Navigation />
-        <ChannelsRow videos={state.videos} />
-        <StyledHomePageDivider />
-        <ListItems
-          videos={state.videos.filter(({ id }) => {
-            return id.kind !== 'youtube#channel';
-          })}
-        />
-      </>
+      <Navigation />
+      <ChannelsRow videos={state.videos} />
+      <StyledHomePageDivider />
+      <ListItems
+        videos={state.videos.filter(({ id }) => {
+          return id.kind !== 'youtube#channel';
+        })}
+      />
     </StyledHomePage>
   );
 }

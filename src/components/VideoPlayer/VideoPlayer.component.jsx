@@ -13,36 +13,33 @@ import {
 } from './styled';
 
 function VideoPlayer({ videoId, title, description, thumbnail }) {
-  const videRole = 'youtube-video';
-  const { addToFavorites, favorites, deleteFavorites } = useAuth();
+  const videTestId = 'youtube-video';
+  const { user, addToFavorites, favorites, deleteFavorites } = useAuth();
+
   const checkAlreadyFavorite = (currentId) => {
-    let found = false;
-    favorites.map((item) => {
-      if (item.id === currentId) {
-        found = true;
-      }
-      return item;
+    const foundInFavorites = favorites.find((item) => {
+      return item.id === currentId;
     });
-    return found;
+    return foundInFavorites;
   };
-  const handleDeleteFavorite = (event, currentId) => {
-    event.preventDefault();
+  const handleDeleteFavorite = (currentId) => {
     deleteFavorites(currentId);
   };
   const handleAddToFavorites = (event, id, videoTitle, videoDescription) => {
-    event.preventDefault();
-    const newFavorite = {
-      id,
-      videoTitle,
-      videoDescription,
-      thumbnail,
-    };
-    addToFavorites(newFavorite);
+    if (user) {
+      const newFavorite = {
+        id,
+        videoTitle,
+        videoDescription,
+        thumbnail,
+      };
+      addToFavorites(newFavorite);
+    }
   };
   return (
     <StyledVideoContainer>
       <StyledVideo
-        data-testid={videRole}
+        data-testid={videTestId}
         title={title}
         id="ytplayer"
         type="text/html"
@@ -52,7 +49,7 @@ function VideoPlayer({ videoId, title, description, thumbnail }) {
       <StyledVideoTitleContainer>
         <StyledVideoTitle>{title}</StyledVideoTitle>
         {checkAlreadyFavorite(videoId) ? (
-          <StyledVideoLike onClick={(e) => handleDeleteFavorite(e, videoId)}>
+          <StyledVideoLike onClick={() => handleDeleteFavorite(videoId)}>
             Remove favorite
           </StyledVideoLike>
         ) : (

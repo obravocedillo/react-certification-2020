@@ -10,7 +10,6 @@ function clickedChip() {
 
 function ChannelsRow({ videos }) {
   if (videos) {
-    // ARIA role to avoid warning and use in testing
     const channel = 'chanel';
     // Get array with all channels
     const allChannels = videos.map((singleItem) => singleItem.snippet.channelTitle);

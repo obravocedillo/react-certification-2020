@@ -12,19 +12,17 @@ import {
 } from './styled';
 
 function ListItems({ videos }) {
-  // ARIA role to avoid warning and use in testing
-  const videoRole = 'single-video';
-  const noVideosRole = 'no-videos';
+  const videoTestId = 'single-video';
+  const noVideosTestId = 'no-videos';
   const history = useHistory();
-  const redirectVideoDetails = (event, id, title, description, image) => {
-    event.preventDefault();
+  const redirectVideoDetails = (id, title, description, image) => {
     history.push({
       pathname: `/video-details/${id}`,
       state: { title, description, image },
     });
   };
   if (!videos || videos.length === 0) {
-    return <p data-testid={noVideosRole}>No videos to show</p>;
+    return <p data-testid={noVideosTestId}>No videos to show</p>;
   }
   return (
     <StyledMainContainer>
@@ -36,11 +34,10 @@ function ListItems({ videos }) {
               <StyledListSingleCard
                 elevation={2}
                 variant="outlined"
-                data-testid={videoRole}
+                data-testid={videoTestId}
                 key={etag}
-                onClick={(e) =>
+                onClick={() =>
                   redirectVideoDetails(
-                    e,
                     id.videoId,
                     snippet.title,
                     snippet.description,

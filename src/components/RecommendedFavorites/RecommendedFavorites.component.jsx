@@ -13,10 +13,9 @@ import {
 } from './styled';
 
 function RecommendedFavorites({ relatedVideos }) {
-  const videoRole = 'recommended-video';
+  const videoTestId = 'recommended-video';
   const history = useHistory();
-  const redirecFavoriteDetails = (event, id, title, description, image) => {
-    event.preventDefault();
+  const redirecFavoriteDetails = (id, title, description, image) => {
     history.push({
       pathname: `/video-details/${id}`,
       state: { title, description, image },
@@ -29,9 +28,9 @@ function RecommendedFavorites({ relatedVideos }) {
           {relatedVideos.map(({ id, videoTitle, videoDescription, thumbnail }) => (
             <StyledVideoGrid
               key={id}
-              data-testid={videoRole}
-              onClick={(e) =>
-                redirecFavoriteDetails(e, id, videoTitle, videoDescription, thumbnail)
+              data-testid={videoTestId}
+              onClick={() =>
+                redirecFavoriteDetails(id, videoTitle, videoDescription, thumbnail)
               }
             >
               <StyledVideoRow>

@@ -46,13 +46,10 @@ function Navigation() {
   const { searchVideos } = useYoutube();
 
   const searchInputHandler = (event) => {
-    event.preventDefault();
     setSearch(event.target.value.toLowerCase());
   };
 
-  const handleSearchClick = async (event) => {
-    event.preventDefault();
-    const returnedVideos = await searchVideos(search);
+  const dispatchVideosChanged = (returnedVideos) => {
     dispatch({
       type: 'CHANGE_VIDEOS',
       payload: returnedVideos,
@@ -63,43 +60,36 @@ function Navigation() {
     });
   };
 
+  const handleSearchClick = async () => {
+    const returnedVideos = await searchVideos(search);
+    dispatchVideosChanged(returnedVideos);
+  };
+
   const handleSearchEnter = async (event) => {
     if (event.charCode === 13) {
       event.preventDefault();
       const returnedVideos = await searchVideos(search);
-      dispatch({
-        type: 'CHANGE_VIDEOS',
-        payload: returnedVideos,
-      });
-      dispatch({
-        type: 'CHANGE_SEARCH',
-        payload: search,
-      });
+      dispatchVideosChanged(returnedVideos);
     }
   };
 
-  const redirectToLogin = (event) => {
-    event.preventDefault();
+  const redirectToLogin = () => {
     history.push('/login');
   };
 
-  const redirectToHome = (event) => {
-    event.preventDefault();
+  const redirectToHome = () => {
     history.push('/');
   };
 
-  const handleDeleteFavorite = (event, item) => {
-    event.preventDefault();
+  const handleDeleteFavorite = (item) => {
     deleteFavorites(item.id);
   };
 
-  const handleLogout = (event) => {
-    event.preventDefault();
+  const handleLogout = () => {
     logout();
   };
 
-  const handleFavoriteClick = (event, id, title, description, image) => {
-    event.preventDefault();
+  const handleFavoriteClick = (id, title, description, image) => {
     history.push({
       pathname: `/favorites/${id}`,
       state: {
@@ -134,12 +124,11 @@ function Navigation() {
    * Drawer on the left
    */
   function DrawerMenu() {
-    // ARIA role to avoid warning and use in testing
-    const drawerRole = 'drawer-element';
+    const drawerTestId = 'drawer-element';
     return (
       <React.Fragment key="left-drawr">
         <StyledSwipeableDrawer
-          data-testid={drawerRole}
+          data-testid={drawerTestId}
           anchor="left"
           open={open}
           onClose={toggleDrawer(false)}
@@ -147,7 +136,7 @@ function Navigation() {
         >
           {authenticated ? (
             <List>
-              <StyledTitleHeadingButton onClick={(e) => redirectToHome(e)}>
+              <StyledTitleHeadingButton onClick={() => redirectToHome()}>
                 Home
               </StyledTitleHeadingButton>
               <StyledCustomDivider />
@@ -167,9 +156,8 @@ function Navigation() {
                   <div key={item.id}>
                     <StyledFavoritesContainer key={item.id}>
                       <StyledFavoritesTitle
-                        onClick={(e) =>
+                        onClick={() =>
                           handleFavoriteClick(
-                            e,
                             item.id,
                             item.videoTitle,
                             item.videoDescription,
@@ -180,9 +168,7 @@ function Navigation() {
                         {item.videoTitle}
                       </StyledFavoritesTitle>
                       <StyledFavoritesButtonContainer>
-                        <StyledFavoritesButton
-                          onClick={(e) => handleDeleteFavorite(e, item)}
-                        >
+                        <StyledFavoritesButton onClick={() => handleDeleteFavorite(item)}>
                           Delete favorite
                         </StyledFavoritesButton>
                       </StyledFavoritesButtonContainer>
@@ -194,12 +180,12 @@ function Navigation() {
             </List>
           ) : (
             <List>
-              <StyledTitleHeadingButton onClick={(e) => redirectToHome(e)}>
+              <StyledTitleHeadingButton onClick={() => redirectToHome()}>
                 Home
               </StyledTitleHeadingButton>
               <StyledCustomDivider />
               <StyledTitleHeading>Favorites</StyledTitleHeading>
-              <StyledLoginButton onClick={(e) => redirectToLogin(e)}>
+              <StyledLoginButton onClick={() => redirectToLogin()}>
                 Login
               </StyledLoginButton>
               <StyledCustomDivider />
@@ -214,7 +200,7 @@ function Navigation() {
    * Return of whole navigation bar
    */
   const draweOpener = 'drawer-opener';
-  const searchRole = 'search-bar';
+  const searchTestId = 'search-bar';
   return (
     <NavigationMainContainer>
       <AppBar position="static">
@@ -234,15 +220,15 @@ function Navigation() {
           {/* Search input container */}
           <CenterContainerNavigation>
             <StyledInputBase
-              data-testid={searchRole}
+              data-testid={searchTestId}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               value={search}
               onKeyPress={(e) => handleSearchEnter(e)}
-              onChange={(e) => searchInputHandler(e)}
+              onChange={() => searchInputHandler()}
             />
             <div>
-              <StyledIconButton size="medium" onClick={(e) => handleSearchClick(e)}>
+              <StyledIconButton size="medium" onClick={() => handleSearchClick()}>
                 <StyledIconSearchIcon />
               </StyledIconButton>
             </div>
@@ -260,12 +246,12 @@ function Navigation() {
               <option value="vintage">Vintage</option>
             </ThemeSelecter>
             {authenticated ? (
-              <StyledSmallLoginButton onClick={(e) => handleLogout(e)}>
+              <StyledSmallLoginButton onClick={() => handleLogout()}>
                 Logout
               </StyledSmallLoginButton>
             ) : (
               <StyledSmallLoginButton
-                onClick={(e) => redirectToLogin(e)}
+                onClick={() => redirectToLogin()}
                 data-testid="login button"
               >
                 Login

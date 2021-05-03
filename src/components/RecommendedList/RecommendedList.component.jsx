@@ -13,10 +13,9 @@ import {
 } from './styled';
 
 function RecommendedList({ relatedVideos }) {
-  const videoRole = 'recommended-video';
+  const videoTestId = 'recommended-video';
   const history = useHistory();
-  const redirectVideoDetails = (event, id, title, description, image) => {
-    event.preventDefault();
+  const redirectVideoDetails = (id, title, description, image) => {
     history.push({
       pathname: `/video-details/${id}`,
       state: { title, description, image },
@@ -29,10 +28,9 @@ function RecommendedList({ relatedVideos }) {
           {relatedVideos.map(({ snippet, etag, id }) => (
             <StyledVideoGrid
               key={etag}
-              data-testid={videoRole}
-              onClick={(e) =>
+              data-testid={videoTestId}
+              onClick={() =>
                 redirectVideoDetails(
-                  e,
                   id.videoId,
                   snippet.title,
                   snippet.description,
