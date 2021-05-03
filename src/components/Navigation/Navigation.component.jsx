@@ -225,7 +225,7 @@ function Navigation() {
               inputProps={{ 'aria-label': 'search' }}
               value={search}
               onKeyPress={(e) => handleSearchEnter(e)}
-              onChange={() => searchInputHandler()}
+              onChange={(e) => searchInputHandler(e)}
             />
             <div>
               <StyledIconButton size="medium" onClick={() => handleSearchClick()}>
